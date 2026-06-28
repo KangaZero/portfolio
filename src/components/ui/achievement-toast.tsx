@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { HoloFx, IconButton, Line, ShineFx } from "@once-ui-system/core/components";
 import { gsap } from "gsap";
-import Image from "next/image";
-import { useAchievements } from "../AchievementsProvider";
 import { Sparkles } from "lucide-react";
+import Image from "next/image";
+import React, { useEffect } from "react";
+import { useAchievements } from "../AchievementsProvider";
 import styles from "./achievement-toast.module.scss";
-import {
-  HoloFx,
-  IconButton,
-  Line,
-  ShineFx,
-} from "@once-ui-system/core/components";
 // import StarBorder from "../StarBorder";
 
 export interface AchievementToastProps {
@@ -26,11 +21,8 @@ const positionClassMap = {
   "bottom-right": styles.bottomRight,
 };
 
-export const AchievementToast: React.FC<AchievementToastProps> = ({
-  position,
-}) => {
-  const { currentAchievementUnlocked, setCurrentAchievementUnlocked } =
-    useAchievements();
+export const AchievementToast: React.FC<AchievementToastProps> = ({ position }) => {
+  const { currentAchievementUnlocked, setCurrentAchievementUnlocked } = useAchievements();
   const toastRef = React.useRef<HTMLDivElement>(null);
   const bounceIn = () => {
     gsap.from(toastRef.current, {
@@ -79,28 +71,20 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAchievementUnlocked]);
   if (!currentAchievementUnlocked) return null;
-  const { title, image, description, rarity, isUnlocked } =
-    currentAchievementUnlocked;
+  const { title, image, description, rarity, isUnlocked } = currentAchievementUnlocked;
 
   const unlockedAt =
     isUnlocked && "UnlockedAt" in currentAchievementUnlocked
-      ? new Date(currentAchievementUnlocked.unlockedAt).toLocaleString(
-          "en-US",
-          {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          },
-        )
+      ? new Date(currentAchievementUnlocked.unlockedAt).toLocaleString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
       : null;
 
-  const toastClasses = [
-    styles.toast,
-    styles[rarity],
-    positionClassMap[position],
-  ].join(" ");
+  const toastClasses = [styles.toast, styles[rarity], positionClassMap[position]].join(" ");
 
   return (
     <div ref={toastRef} className={styles.toastOverlay}>

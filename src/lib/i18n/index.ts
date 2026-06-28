@@ -14,9 +14,7 @@ type DotPrefix<T extends string> = T extends "" ? "" : `.${T}`;
 type NestedKeys<T> = (
   T extends object
     ? {
-        [K in keyof T]: K extends string
-          ? `${K}${DotPrefix<NestedKeys<T[K]>>}`
-          : never;
+        [K in keyof T]: K extends string ? `${K}${DotPrefix<NestedKeys<T[K]>>}` : never;
       }[keyof T]
     : ""
 ) extends infer D
@@ -64,5 +62,5 @@ function get<T, K extends string>(obj: T, key: K): NestedValue<T, K> {
  * @see src/components/LocaleProvider.tsx
  */
 export function t(key: TranslationKey, locale: Locale = "en") {
-  return get(translations[locale], key) ?? get(translations["en"], key) ?? key;
+  return get(translations[locale], key) ?? get(translations.en, key) ?? key;
 }

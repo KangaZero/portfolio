@@ -16,11 +16,11 @@ const LocaleToggle: React.FC<{ className?: string }> = ({ className }) => {
         setLocaleCookieAndState(locale === "en" ? "ja" : "en");
         addToast({
           variant: "success",
-          message:
-            locale === "en" ? "日本語に切り替えました" : "Switched to English",
+          message: locale === "en" ? "日本語に切り替えました" : "Switched to English",
         });
       }}
     />
   );
 };
+
 export { LocaleToggle };

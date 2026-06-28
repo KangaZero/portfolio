@@ -1,36 +1,28 @@
 "use client";
 
+import { Avatar, Column, Fade, Flex, HoverCard, Row, Text, useTheme } from "@once-ui-system/core";
+import { gsap } from "gsap";
+import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type React from "react";
 import { useEffect, useRef, useState } from "react";
+import { useAchievements } from "@/components/AchievementsProvider";
+import { HeaderDock } from "@/components/HeaderDock";
+// import { CustomHeadingNav } from "./CustomHeadingNav";
+import { useLocale } from "@/components/LocaleProvider";
+import { HeaderDate } from "@/components/ui/header-date";
 import {
-  Fade,
-  Row,
-  Flex,
-  Column,
-  HoverCard,
-  Avatar,
-  Text,
-  useTheme,
-} from "@once-ui-system/core";
-import {
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: "Map" is the Leaflet map wrapper component's public name
   Map,
+  MapCircle,
+  MapLocateControl,
   MapMarker,
   MapPopup,
   MapTileLayer,
   MapZoomControl,
-  MapCircle,
-  MapLocateControl,
 } from "@/components/ui/map";
-import { HeaderDate } from "@/components/ui/header-date";
-import { HeaderDock } from "@/components/HeaderDock";
-import { display, person, headerHoverCardDetails } from "@/resources";
-import { gsap } from "gsap";
-import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { display, headerHoverCardDetails, person } from "@/resources";
 import styles from "./Header.module.scss";
-import React from "react";
-// import { CustomHeadingNav } from "./CustomHeadingNav";
-import { useLocale } from "@/components/LocaleProvider";
-import { useAchievements } from "@/components/AchievementsProvider";
 import TrophiesDisplay from "./ui/trophies-display";
 
 type TimeDisplayProps = {
@@ -38,10 +30,7 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({
-  timeZone,
-  locale = "en-GB",
-}) => {
+const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
   const [currentTime, setCurrentTime] = useState("");
   useEffect(() => {
     const updateTime = () => {
@@ -78,15 +67,9 @@ export const Header = () => {
   const hoverCardDescriptionRef = useRef<HTMLSpanElement>(null);
   const { theme } = useTheme();
   useEffect(() => {
-    const lightThemeBtnElement = document.querySelector(
-      '[aria-label="Light theme"]',
-    );
-    const darkThemeBtnElement = document.querySelector(
-      '[aria-label="Dark theme"]',
-    );
-    const systemThemeBtnElement = document.querySelector(
-      '[aria-label="System theme"]',
-    );
+    const lightThemeBtnElement = document.querySelector('[aria-label="Light theme"]');
+    const darkThemeBtnElement = document.querySelector('[aria-label="Dark theme"]');
+    const systemThemeBtnElement = document.querySelector('[aria-label="System theme"]');
 
     const toUnlockOrNotEosAchievement = (mode: "light" | "dark" | "system") => {
       const documentTheme = document.documentElement.getAttribute("data-theme");
@@ -97,9 +80,7 @@ export const Header = () => {
     lightThemeBtnElement?.addEventListener("pointerdown", () =>
       toUnlockOrNotEosAchievement("light"),
     );
-    darkThemeBtnElement?.addEventListener("pointerdown", () =>
-      toUnlockOrNotEosAchievement("dark"),
-    );
+    darkThemeBtnElement?.addEventListener("pointerdown", () => toUnlockOrNotEosAchievement("dark"));
     systemThemeBtnElement?.addEventListener("pointerdown", () =>
       toUnlockOrNotEosAchievement("system"),
     );
@@ -131,9 +112,7 @@ export const Header = () => {
         if (killed) return;
         gsap.to(ref.current, {
           scrambleText: {
-            text: translate(
-              `headerHoverCardDetails.${index}` as "headerHoverCardDetails.0",
-            ),
+            text: translate(`headerHoverCardDetails.${index}` as "headerHoverCardDetails.0"),
             chars: translate(
               `headerHoverCardDetails.${(index + 1) % texts.length}` as "headerHoverCardDetails.0",
             ),
@@ -150,10 +129,7 @@ export const Header = () => {
       };
       animate();
     }
-    cycleText(
-      hoverCardDescriptionRef as React.RefObject<HTMLDivElement>,
-      headerHoverCardDetails,
-    );
+    cycleText(hoverCardDescriptionRef as React.RefObject<HTMLDivElement>, headerHoverCardDetails);
     return () => {
       killed = true;
     };
@@ -162,13 +138,7 @@ export const Header = () => {
 
   return (
     <>
-      <Fade
-        s={{ hide: true }}
-        fillWidth
-        position="fixed"
-        height="80"
-        zIndex={9}
-      />
+      <Fade s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
       <Fade
         hide
         s={{ hide: false }}
@@ -193,19 +163,10 @@ export const Header = () => {
           position: "fixed",
         }}
       >
-        <Row
-          paddingLeft="12"
-          fillWidth
-          vertical="center"
-          textVariant="body-default-s"
-        >
+        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
           {display.location && (
             <Row s={{ hide: true }}>
-              <HoverCard
-                tabIndex={0}
-                placement="bottom"
-                trigger={<HeaderDate />}
-              >
+              <HoverCard tabIndex={0} placement="bottom" trigger={<HeaderDate />}>
                 <Column
                   padding="20"
                   gap="20"
@@ -248,10 +209,7 @@ export const Header = () => {
                       zIndex={1}
                       darkUrl="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}"
                     />
-                    <MapCircle
-                      center={person.locationCoordinates}
-                      radius={200}
-                    />
+                    <MapCircle center={person.locationCoordinates} radius={200} />
                     <MapMarker
                       key={person.location.split("/")[1]}
                       position={person.locationCoordinates}
@@ -265,15 +223,8 @@ export const Header = () => {
             </Row>
           )}
           {/* {display.location && <Row s={{ hide: true }}>{person.location}</Row>} */}
-          <Flex
-            paddingLeft="24"
-            vertical="center"
-            s={{ hide: true }}
-            m={{ hide: true }}
-          >
-            {display.trophies && (
-              <TrophiesDisplay achievementsCount={achievementsCount} />
-            )}
+          <Flex paddingLeft="24" vertical="center" s={{ hide: true }} m={{ hide: true }}>
+            {display.trophies && <TrophiesDisplay achievementsCount={achievementsCount} />}
           </Flex>
         </Row>
 
@@ -303,10 +254,7 @@ export const Header = () => {
               gap="20"
               minWidth={15}
             >
-              <span
-                className={styles.hoverCardDescription}
-                ref={hoverCardDescriptionRef}
-              ></span>
+              <span className={styles.hoverCardDescription} ref={hoverCardDescriptionRef}></span>
             </Flex>
           )}
         </Flex>

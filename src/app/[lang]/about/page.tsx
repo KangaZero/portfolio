@@ -1,24 +1,14 @@
-import {
-  Column,
-  Heading,
-  Media,
-  Tag,
-  Text,
-  Meta,
-  Schema,
-  Row,
-} from "@once-ui-system/core";
-import { baseURL, about, person } from "@/resources";
-import TableOfContents from "@/components/about/TableOfContents";
-import styles from "@/components/about/about.module.scss";
-import React from "react";
-import TrueFocus from "@/components/about/TrueFocus";
-
+import { Column, Heading, Media, Meta, Row, Schema, Tag, Text } from "@once-ui-system/core";
+import type React from "react";
 import { AvatarContainer } from "@/components/about/AvatarContainer";
-import { TranslationKey } from "@/lib/i18n";
+import styles from "@/components/about/about.module.scss";
 import { IntroContainer } from "@/components/about/IntroContainer";
-import { StudiesContainer } from "@/components/about/StudiesContainer";
 import { LocationLanguageContainer } from "@/components/about/LocationLanguageContainer";
+import { StudiesContainer } from "@/components/about/StudiesContainer";
+import TableOfContents from "@/components/about/TableOfContents";
+import TrueFocus from "@/components/about/TrueFocus";
+import type { TranslationKey } from "@/lib/i18n";
+import { about, baseURL, person } from "@/resources";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -116,31 +106,16 @@ export default function About() {
               />
               <Column fillWidth gap="l" marginTop="m" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
-                  <Column
-                    key={`${experience.company}-${experience.role}-${index}`}
-                    fillWidth
-                  >
-                    <Row
-                      fillWidth
-                      horizontal="between"
-                      vertical="end"
-                      marginBottom="4"
-                    >
+                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
+                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
                       <Text id={experience.company} variant="heading-strong-l">
                         {experience.company}
                       </Text>
-                      <Text
-                        variant="heading-default-xs"
-                        onBackground="neutral-weak"
-                      >
+                      <Text variant="heading-default-xs" onBackground="neutral-weak">
                         {experience.timeframe}
                       </Text>
                     </Row>
-                    <Text
-                      variant="body-default-s"
-                      onBackground="brand-weak"
-                      marginBottom="m"
-                    >
+                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
                       {experience.role}
                     </Text>
                     <Column as="ul" gap="16">
@@ -157,13 +132,7 @@ export default function About() {
                       )}
                     </Column>
                     {experience.images && experience.images.length > 0 && (
-                      <Row
-                        fillWidth
-                        paddingTop="m"
-                        paddingLeft="40"
-                        gap="12"
-                        wrap
-                      >
+                      <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
                         {experience.images.map((image, index) => (
                           <Row
                             key={index}
@@ -213,11 +182,7 @@ export default function About() {
                     {skill.tags && skill.tags.length > 0 && (
                       <Row wrap gap="8" paddingTop="8">
                         {skill.tags.map((tag, tagIndex) => (
-                          <Tag
-                            key={`${skill.title}-${tagIndex}`}
-                            size="l"
-                            prefixIcon={tag.icon}
-                          >
+                          <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
                             {tag.name}
                           </Tag>
                         ))}

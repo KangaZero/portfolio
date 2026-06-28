@@ -1,8 +1,8 @@
 "use client";
 import "./SkillsContainer.css";
-import { skills } from "@/resources";
-import { Row, Icon } from "@once-ui-system/core";
+import { Icon, Row } from "@once-ui-system/core";
 import React, { useState } from "react";
+import { skills } from "@/resources";
 
 const SkillsContainer = () => {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -13,8 +13,7 @@ const SkillsContainer = () => {
         .filter((item) => item.essential)
         .map((item) => {
           const isFlipped =
-            hovered === item.name &&
-            (item.name === "Typescript" || item.name === "Javascript");
+            hovered === item.name && (item.name === "Typescript" || item.name === "Javascript");
 
           // Determine swap values
           const frontName = item.name;
@@ -36,14 +35,10 @@ const SkillsContainer = () => {
             <React.Fragment key={item.name}>
               <Row s={{ horizontal: "center" }}>
                 <div
-                  tabIndex={0}
                   aria-label={`${item.name} - ${item.level}`}
                   className={`flip-card${isFlipped ? " flipped" : ""}`}
                   onPointerDown={() => {
-                    if (
-                      item.name === "Typescript" ||
-                      item.name === "Javascript"
-                    ) {
+                    if (item.name === "Typescript" || item.name === "Javascript") {
                       setHovered(isFlipped ? null : item.name);
                     }
                   }}
@@ -64,8 +59,7 @@ const SkillsContainer = () => {
                         }
                         style={{ color: item.color }}
                         cursor={
-                          frontName === "Javascript" ||
-                          frontName === "Typescript"
+                          frontName === "Javascript" || frontName === "Typescript"
                             ? "pointer"
                             : "default"
                         }
@@ -94,4 +88,5 @@ const SkillsContainer = () => {
     </>
   );
 };
+
 export { SkillsContainer };

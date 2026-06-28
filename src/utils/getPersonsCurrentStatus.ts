@@ -1,4 +1,4 @@
-import { IANATimeZone, Person } from "@/types";
+import type { IANATimeZone, Person } from "@/types";
 
 //TODO refactor to Temporal API when widely available
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal
@@ -23,10 +23,7 @@ import { IANATimeZone, Person } from "@/types";
  * getPersonsCurrentStatus("Asia/Tokyo", "en"); // "coding"
  * getPersonsCurrentStatus("Asia/Tokyo", "ja"); // "コーディング中"
  */
-const getPersonsCurrentStatus = (
-  location: IANATimeZone,
-  locale?: "en" | "ja",
-) => {
+const getPersonsCurrentStatus = (location: IANATimeZone, locale?: "en" | "ja") => {
   const date = new Date();
   const currentTimeInUTC9 = new Date(
     date.toLocaleString("en-US", { timeZone: location || "Asia/Tokyo" }),
@@ -97,4 +94,5 @@ const getPersonsCurrentStatus = (
   } as const;
   return locale === "ja" ? mappedLocaleStatus[status] : status;
 };
+
 export { getPersonsCurrentStatus };

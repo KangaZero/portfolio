@@ -1,6 +1,6 @@
+import { getCurrentYear } from "@/utils/getCurrentYear";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
-import { getCurrentYear } from "@/utils/getCurrentYear";
 
 const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 //WARNING: Following used for metaData: Don't add for title, description, baseURL, path, image
@@ -51,38 +51,12 @@ const en = {
     `Currently ${getPersonsCurrentStatus(userLocation, "en")}`,
   ],
   headerDate: {
-    days: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ],
-    months: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   },
   home: {
     code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
-    headline: [
-      "Samuel Wai Weng Yong",
-      "'s",
-      "Portfolio",
-      `${getCurrentYear("en")}`,
-    ],
+    headline: ["Samuel Wai Weng Yong", "'s", "Portfolio", `${getCurrentYear("en")}`],
     subline: ["Created by"],
     projects: "Projects",
   },
@@ -155,8 +129,7 @@ const en = {
       institutions: [
         {
           name: "University of Sydney",
-          description:
-            "Majored in Classical Piano, minored in Fullstack Web Development",
+          description: "Majored in Classical Piano, minored in Fullstack Web Development",
           title: "Bachelor of Arts",
         },
       ],

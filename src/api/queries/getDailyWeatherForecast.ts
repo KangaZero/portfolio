@@ -1,6 +1,7 @@
 //https://open-meteo.com/en/docs/jma-api?latitude=35&longitude=139&timezone=Asia%2FTokyo&forecast_days=1&hourly=temperature_2m,weather_code&daily=weather_code&current=temperature_2m,is_day,weather_code
-import { IANATimeZone, WMOCodes } from "@/types";
+
 import { useQuery } from "@tanstack/react-query";
+import type { IANATimeZone, WMOCodes } from "@/types";
 
 export type DailyWeatherForecast = {
   latitude: number;
@@ -51,9 +52,7 @@ type GetWeatherParams = {
   forecastDays: 1 | 3 | 5 | 7 | 10 | 11;
 };
 
-async function getWeather(
-  props: GetWeatherParams,
-): Promise<DailyWeatherForecast> {
+async function getWeather(props: GetWeatherParams): Promise<DailyWeatherForecast> {
   const { latitude, longitude, timezone, forecastDays } = props;
   const res = await fetch(
     `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code&hourly=temperature_2m,weather_code&models=jma_seamless&current=temperature_2m,is_day,weather_code&timezone=${timezone}&forecast_days=${forecastDays}`,

@@ -75,12 +75,7 @@ const ja = {
   },
   home: {
     code: `// Aboutページに移動するには、ブラウザのコンソールに以下を入力してください:\nwindow.location.href = '/about';`,
-    headline: [
-      "Samuel Wai Weng Yong",
-      "の",
-      "ポートフォリオ",
-      `令和：${getCurrentYear("ja")} 年`,
-    ],
+    headline: ["Samuel Wai Weng Yong", "の", "ポートフォリオ", `令和：${getCurrentYear("ja")} 年`],
     subline: ["作成者"],
     projects: "プロジェクト",
   },

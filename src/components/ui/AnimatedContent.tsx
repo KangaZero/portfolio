@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type React from "react";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -130,12 +131,7 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
   ]);
 
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{ visibility: "hidden", ...style }}
-      {...props}
-    >
+    <div ref={ref} className={className} style={{ visibility: "hidden", ...style }} {...props}>
       {children}
     </div>
   );

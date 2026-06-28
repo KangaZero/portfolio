@@ -1,15 +1,15 @@
 .panel-wrapper {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    box-sizing: border-box !important;
-    /*background: none !important;*/
-    border: none !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /*background: none !important;*/
+  border: none;
 }
 .panel {
-    transition: all 0.3s ease-in-out;
-    background-color: red;
+  transition: all 0.3s ease-in-out;
+  background-color: red;
 }
 
 .panel.left {

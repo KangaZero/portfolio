@@ -1,8 +1,8 @@
 "use client";
-import { person } from "@/resources";
-import { Row, Icon, Tag, Text, HoverCard, Column } from "@once-ui-system/core";
+import { Column, HoverCard, Icon, Row, Tag, Text } from "@once-ui-system/core";
 import { useLocale } from "@/components/LocaleProvider";
-import { TranslationKey } from "@/lib/i18n";
+import type { TranslationKey } from "@/lib/i18n";
+import { person } from "@/resources";
 
 const LocationLanguageContainer = () => {
   const { translate, locale } = useLocale();
@@ -28,9 +28,7 @@ const LocationLanguageContainer = () => {
                 <>
                   {person.learningLanguages.map((_, index) => (
                     <Tag key={index} size="m" variant="warning">
-                      {translate(
-                        `person.learningLanguages.${index}.language` as TranslationKey,
-                      )}
+                      {translate(`person.learningLanguages.${index}.language` as TranslationKey)}
                     </Tag>
                   ))}
                 </>
@@ -47,15 +45,11 @@ const LocationLanguageContainer = () => {
                 {person.learningLanguages.map((_, index) => (
                   <Row key={index}>
                     <Text variant="body-strong-s">
-                      {translate(
-                        `person.learningLanguages.${index}.language` as TranslationKey,
-                      )}
+                      {translate(`person.learningLanguages.${index}.language` as TranslationKey)}
                       :&nbsp;
                     </Text>
                     <Text variant="body-default-s">
-                      {translate(
-                        `person.learningLanguages.${index}.description` as TranslationKey,
-                      )}
+                      {translate(`person.learningLanguages.${index}.description` as TranslationKey)}
                     </Text>
                   </Row>
                 ))}

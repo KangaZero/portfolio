@@ -1,7 +1,7 @@
 "use client";
 import "./TrueFocus.css";
-import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "@/components/LocaleProvider";
 
 interface TrueFocusProps {
@@ -41,9 +41,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const wordRefs: React.MutableRefObject<(HTMLSpanElement | null)[]> = useRef(
-    [],
-  );
+  const wordRefs: React.MutableRefObject<(HTMLSpanElement | null)[]> = useRef([]);
   const [focusRect, setFocusRect] = useState<FocusRect>({
     x: 0,
     y: 0,
@@ -94,11 +92,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   };
 
   return (
-    <div
-      className="focus-container"
-      id={translate("about.work.title")}
-      ref={containerRef}
-    >
+    <div className="focus-container" id={translate("about.work.title")} ref={containerRef}>
       {words.map((word, index) => {
         const isActive = index === currentIndex;
         return (
@@ -128,9 +122,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             onPointerDown={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
           >
-            {index === 0 && !isActive
-              ? translate("about.work.subtitleBlur")
-              : word}
+            {index === 0 && !isActive ? translate("about.work.subtitleBlur") : word}
           </span>
         );
       })}

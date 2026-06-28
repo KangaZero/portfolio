@@ -1,8 +1,8 @@
 import { Flex, Meta, Schema } from "@once-ui-system/core";
-import { achievements, baseURL, person, about } from "@/resources";
-import { Metadata } from "next";
-import AchievementsWrapper from "./components/AchievementsWrapper";
+import type { Metadata } from "next";
+import { about, achievements, baseURL, person } from "@/resources";
 import AchievementsTitle from "./components/AchievementsTitle";
+import AchievementsWrapper from "./components/AchievementsWrapper";
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
     title: achievements.title,

@@ -1,15 +1,9 @@
 "use client";
 
-import { ClientInfo, TypeSafeClientInfo } from "@/types";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import type { ClientInfo, TypeSafeClientInfo } from "@/types";
 import { getStartInitializedCookie } from "@/utils/getStartInitializedCookie";
 import { whoAmI } from "@/utils/getUserFingerprint";
-import {
-  ReactNode,
-  useState,
-  useContext,
-  createContext,
-  useEffect,
-} from "react";
 
 type UserInfoContextType = {
   userInfo: null | ClientInfo;
@@ -19,9 +13,7 @@ type UserInfoContextType = {
   isTerminalOpen: boolean;
   setIsTerminalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const UserInfoContext = createContext<UserInfoContextType | undefined>(
-  undefined,
-);
+const UserInfoContext = createContext<UserInfoContextType | undefined>(undefined);
 
 export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<null | ClientInfo>(null);
@@ -29,8 +21,7 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     getStartInitializedCookie() || false,
   );
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [typeSafeUserInfo, setTypeSafeUserInfo] =
-    useState<null | TypeSafeClientInfo>(null);
+  const [typeSafeUserInfo, setTypeSafeUserInfo] = useState<null | TypeSafeClientInfo>(null);
 
   const setStartInitializedCookie = (state: boolean) => {
     if (typeof document === "undefined") return;
@@ -98,10 +89,7 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     setTypeSafeUserInfo({
       ...userInfo,
       platform,
-      batteryIcon: getBatteryIcon(
-        userInfo.batteryLevel,
-        userInfo.batteryCharging,
-      ),
+      batteryIcon: getBatteryIcon(userInfo.batteryLevel, userInfo.batteryCharging),
     });
   }, [userInfo]);
 
@@ -123,7 +111,6 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
 export const useUserInfo = () => {
   const context = useContext(UserInfoContext);
-  if (!context)
-    throw new Error("useUserInfo must be used within a UserInfoContext");
+  if (!context) throw new Error("useUserInfo must be used within a UserInfoContext");
   return context;
 };

@@ -1,10 +1,10 @@
 .text {
-    color: #dfdcff;
-    font-size: clamp(2rem, 12rem, 5vw);
-    line-height: 1.2;
-    box-sizing: border-box;
-    padding: 5%;
-    width: 100%;
-    text-align: center;
-    perspective: 500px;
+  color: #dfdcff;
+  font-size: clamp(2rem, 12rem, 5vw);
+  line-height: 1.2;
+  box-sizing: border-box;
+  padding: 5%;
+  width: 100%;
+  text-align: center;
+  perspective: 500px;
 }

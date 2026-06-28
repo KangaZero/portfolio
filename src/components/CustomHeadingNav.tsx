@@ -4,9 +4,7 @@ import { HeadingNav, IconButton, Row } from "@once-ui-system/core";
 import { useState } from "react";
 import styles from "./Header.module.scss";
 
-const CustomHeadingNav: React.FC<React.ComponentProps<typeof HeadingNav>> = (
-  props,
-) => {
+const CustomHeadingNav: React.FC<React.ComponentProps<typeof HeadingNav>> = (props) => {
   const [show, setShow] = useState(false);
 
   return (

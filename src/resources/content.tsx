@@ -1,22 +1,22 @@
-import { BentoCardProps } from "@/components/MagicBento";
+import { LetterFx, Logo, Row, Text } from "@once-ui-system/core";
+import type { BentoCardProps } from "@/components/MagicBento";
 import type {
   About,
+  Achievement,
+  AchievementPage,
   Blog,
   Gallery,
   Home,
   Newsletter,
   Person,
+  Skills,
   Social,
   TerminalCommandType,
-  Work,
   UserSettings,
-  Achievement,
-  AchievementPage,
-  Skills,
+  Work,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
-import { LetterFx, Logo, Row, Text } from "@once-ui-system/core";
 
 const userSettings: UserSettings = {
   isEffectsEnabled: true,
@@ -60,8 +60,10 @@ const terminalCommand: TerminalCommandType = {
     setIsStartinitializedStateAndCookie(true);
   },
   history: (inputAreaElement, allUserCommands, argument) => {
-    if (allUserCommands.length < 1)
-      return (inputAreaElement.textContent += `\nNo history detected\nExited out of command 'history'`);
+    if (allUserCommands.length < 1) {
+      inputAreaElement.textContent += `\nNo history detected\nExited out of command 'history'`;
+      return;
+    }
     if (!argument) {
       inputAreaElement.textContent += `\nHistory: ${allUserCommands.join(", ")}`;
     } else if (argument && Number(argument)) {
@@ -177,17 +179,11 @@ const person: Person = {
       category: "hobby",
     },
   ],
-  currentStatus: getPersonsCurrentStatus(
-    userLocation,
-  ) as string as Person["currentStatus"],
+  currentStatus: getPersonsCurrentStatus(userLocation) as string as Person["currentStatus"],
 };
 
 //NOTE: This is used to determine the length of headerHoverCardDetails for now
-const headerHoverCardDetails = [
-  useI18nIndicator,
-  useI18nIndicator,
-  useI18nIndicator,
-];
+const headerHoverCardDetails = [useI18nIndicator, useI18nIndicator, useI18nIndicator];
 
 const newsletter: Newsletter = {
   display: true,
@@ -309,11 +305,7 @@ const home: Home = {
       <br />
       {text3}
       <br />
-      <LetterFx
-        speed="slow"
-        trigger="instant"
-        charset={"30459uirohe".split("")}
-      >
+      <LetterFx speed="slow" trigger="instant" charset={"30459uirohe".split("")}>
         {text4}
       </LetterFx>
     </Text>
@@ -476,28 +468,26 @@ const about: About = {
         role: "Frontend Developer",
         achievements: [
           <>
-            <b>Unified a fragmented ecosystem</b> of legacy tools (Excel,
-            PowerPoint, and Sharepoint docs) into a single, standardized
-            platform, creating a <q>single source of truth</q> for enterprise
-            workflows.
+            <b>Unified a fragmented ecosystem</b> of legacy tools (Excel, PowerPoint, and Sharepoint
+            docs) into a single, standardized platform, creating a <q>single source of truth</q> for
+            enterprise workflows.
           </>,
           <>
-            <b>Developed interactive visual builders</b>, including an SAP
-            component canvas and a design-flow engine, allowing users to build
-            and test enterprise applications through a drag-and-drop interface.
+            <b>Developed interactive visual builders</b>, including an SAP component canvas and a
+            design-flow engine, allowing users to build and test enterprise applications through a
+            drag-and-drop interface.
           </>,
           <>
             <b>
               Engineered an <q>App-Wide Intelligence</q> layer
             </b>{" "}
-            that enables the platform to automatically read, update, and
-            refactor data across the entire web application to ensure
-            consistency.
+            that enables the platform to automatically read, update, and refactor data across the
+            entire web application to ensure consistency.
           </>,
           <>
-            <b>Transformed the Developer Experience (DX)</b> by replacing slow,
-            manual documentation processes with automated tools, significantly
-            reducing project delivery times and operational costs.
+            <b>Transformed the Developer Experience (DX)</b> by replacing slow, manual documentation
+            processes with automated tools, significantly reducing project delivery times and
+            operational costs.
           </>,
         ],
         images: [
@@ -516,8 +506,8 @@ const about: About = {
         role: "Fullstack intern",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple
-            platforms, improving design consistency by 40%.
+            Developed a design system that unified the brand across multiple platforms, improving
+            design consistency by 40%.
           </>,
         ],
         images: [],
@@ -544,9 +534,7 @@ const about: About = {
     skills: [
       {
         title: "Figma",
-        description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
-        ),
+        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
         tags: [
           {
             name: "Figma",
@@ -571,9 +559,7 @@ const about: About = {
       },
       {
         title: "Next.js",
-        description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
-        ),
+        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
         tags: [
           {
             name: "JavaScript",
@@ -769,8 +755,7 @@ const sandMandalaIndex = achievementsList.findIndex(
   (achievement) => achievement.title === "Sand Mandala",
 );
 if (sandMandalaIndex !== -1) {
-  achievementsList[sandMandalaIndex].noOfAchievementsRequiredToUnlock =
-    achievementsList.length - 6;
+  achievementsList[sandMandalaIndex].noOfAchievementsRequiredToUnlock = achievementsList.length - 6;
 } else {
   achievementsList.push({
     id: 19,
@@ -1074,24 +1059,24 @@ const WMOCodeDescriptions = {
 } as const;
 
 export {
-  terminalCommand,
-  userSettings,
-  person,
-  headerHoverCardDetails,
-  social,
-  skills,
-  newsletter,
-  home,
-  projectCardData,
   about,
-  blog,
-  work,
-  gallery,
-  achievementsList,
   achievements,
-  negativeAchievement,
+  achievementsList,
   achievementTrophyMapping,
+  blog,
+  gallery,
+  headerHoverCardDetails,
+  home,
   LOCAL_STORAGE_KEY,
+  negativeAchievement,
+  newsletter,
+  person,
+  projectCardData,
+  skills,
+  social,
+  terminalCommand,
   useI18nIndicator,
+  userSettings,
   WMOCodeDescriptions,
+  work,
 };

@@ -1,18 +1,8 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-} from "react";
-import {
-  achievementsList,
-  negativeAchievement,
-  LOCAL_STORAGE_KEY,
-} from "@/resources/content";
+import type React from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { achievementsList, LOCAL_STORAGE_KEY, negativeAchievement } from "@/resources/content";
 import type { Achievement } from "@/types/content.types";
 import { timeDiffInMilliseconds } from "@/utils/timeDiffInMilliseconds";
 
@@ -25,24 +15,14 @@ type AchievementsContextType = {
       | [title: Exclude<Achievement["title"], "Speedophile">]
   ) => void;
   currentAchievementUnlocked: null | Achievement;
-  setCurrentAchievementUnlocked: React.Dispatch<
-    React.SetStateAction<null | Achievement>
-  >;
+  setCurrentAchievementUnlocked: React.Dispatch<React.SetStateAction<null | Achievement>>;
 };
 
-const AchievementsContext = createContext<AchievementsContextType | undefined>(
-  undefined,
-);
+const AchievementsContext = createContext<AchievementsContextType | undefined>(undefined);
 
-export const AchievementsProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const AchievementsProvider = ({ children }: { children: React.ReactNode }) => {
   const LOCAL_STORAGE_ACHIEVEMENTS: string | "e1eda57b" | null =
-    typeof window !== "undefined"
-      ? localStorage.getItem(LOCAL_STORAGE_KEY)
-      : null;
+    typeof window !== "undefined" ? localStorage.getItem(LOCAL_STORAGE_KEY) : null;
   const [achievements, setAchievements] = useState<Achievement[]>(
     JSON.parse(
       LOCAL_STORAGE_ACHIEVEMENTS && LOCAL_STORAGE_ACHIEVEMENTS !== "e1eda57b"
@@ -53,30 +33,26 @@ export const AchievementsProvider = ({
   const achievementsCount = useMemo<Record<Achievement["rarity"], number>>(
     () => ({
       common: achievements.filter(
-        (achievement) =>
-          achievement.isUnlocked && achievement.rarity === "common",
+        (achievement) => achievement.isUnlocked && achievement.rarity === "common",
       ).length,
       uncommon: achievements.filter(
-        (achievement) =>
-          achievement.isUnlocked && achievement.rarity === "uncommon",
+        (achievement) => achievement.isUnlocked && achievement.rarity === "uncommon",
       ).length,
       rare: achievements.filter(
-        (achievement) =>
-          achievement.isUnlocked && achievement.rarity === "rare",
+        (achievement) => achievement.isUnlocked && achievement.rarity === "rare",
       ).length,
       legendary: achievements.filter(
-        (achievement) =>
-          achievement.isUnlocked && achievement.rarity === "legendary",
+        (achievement) => achievement.isUnlocked && achievement.rarity === "legendary",
       ).length,
       mythic: achievements.filter(
-        (achievement) =>
-          achievement.isUnlocked && achievement.rarity === "mythic",
+        (achievement) => achievement.isUnlocked && achievement.rarity === "mythic",
       ).length,
     }),
     [achievements],
   );
-  const [currentAchievementUnlocked, setCurrentAchievementUnlocked] =
-    useState<null | Achievement>(null);
+  const [currentAchievementUnlocked, setCurrentAchievementUnlocked] = useState<null | Achievement>(
+    null,
+  );
   //   //TODO replace after testing is done
   //   achievements
   //     .map((ach) => {
@@ -100,8 +76,7 @@ export const AchievementsProvider = ({
       try {
         const [title, split] = args;
         const isCurrentAchievementAlreadyUnlocked = achievements.some(
-          (achievement) =>
-            achievement.title === title && achievement.isUnlocked,
+          (achievement) => achievement.title === title && achievement.isUnlocked,
         );
         if (isCurrentAchievementAlreadyUnlocked) return;
         setAchievements((prev) =>
@@ -129,9 +104,7 @@ export const AchievementsProvider = ({
             return updated;
           }),
         );
-        setCurrentAchievementUnlocked(
-          achievements.find((a) => a.title === title) || null,
-        );
+        setCurrentAchievementUnlocked(achievements.find((a) => a.title === title) || null);
       } catch (error) {
         console.error(error);
       }
@@ -170,11 +143,7 @@ export const AchievementsProvider = ({
 
   // NOTE: No Achievements have been unlocked yet, or it has been reset by the user
   useEffect(() => {
-    if (
-      !achievements.find(
-        (achievement) => achievement.id === 1 && achievement.isUnlocked,
-      )
-    ) {
+    if (!achievements.find((achievement) => achievement.id === 1 && achievement.isUnlocked)) {
       unlockAchievement("New Beginnings");
       if (unlockSandMandala) {
         unlockAchievement("Sand Mandala");
@@ -195,14 +164,10 @@ export const AchievementsProvider = ({
       const oldestDate = unlockedAtList.reduce((oldest, current) =>
         oldest.getTime() < current.getTime() ? oldest : current,
       );
-      const timeDiffBetweenOldestAndNewestAchievement =
-        timeDiffInMilliseconds(oldestDate);
+      const timeDiffBetweenOldestAndNewestAchievement = timeDiffInMilliseconds(oldestDate);
       //TODO consider moving this 67s magic number as a property of achievement
       if (timeDiffBetweenOldestAndNewestAchievement < 67 * 1000) {
-        unlockAchievement(
-          "Speedophile",
-          timeDiffBetweenOldestAndNewestAchievement,
-        );
+        unlockAchievement("Speedophile", timeDiffBetweenOldestAndNewestAchievement);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -216,24 +181,14 @@ export const AchievementsProvider = ({
       currentAchievementUnlocked,
       setCurrentAchievementUnlocked,
     }),
-    [
-      achievements,
-      achievementsCount,
-      currentAchievementUnlocked,
-      unlockAchievement,
-    ],
+    [achievements, achievementsCount, currentAchievementUnlocked, unlockAchievement],
   );
 
-  return (
-    <AchievementsContext.Provider value={value}>
-      {children}
-    </AchievementsContext.Provider>
-  );
+  return <AchievementsContext.Provider value={value}>{children}</AchievementsContext.Provider>;
 };
 
 export const useAchievements = () => {
   const context = useContext(AchievementsContext);
-  if (!context)
-    throw new Error("useAchievements must be used within AchievementsProvider");
+  if (!context) throw new Error("useAchievements must be used within AchievementsProvider");
   return context;
 };

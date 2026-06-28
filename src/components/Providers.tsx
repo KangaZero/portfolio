@@ -7,20 +7,14 @@ import {
   ThemeProvider,
   ToastProvider,
 } from "@once-ui-system/core";
-import { style, dataStyle } from "../resources";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { dataStyle, style } from "../resources";
 import { iconLibrary } from "../resources/icons";
 import { AchievementsProvider } from "./AchievementsProvider";
 import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { UserInfoProvider } from "./UserInfoProvider";
-export function Providers({
-  children,
-  lang,
-}: {
-  children: React.ReactNode;
-  lang: string;
-}) {
+export function Providers({ children, lang }: { children: React.ReactNode; lang: string }) {
   const queryClient = new QueryClient();
 
   return (
@@ -55,9 +49,7 @@ export function Providers({
                 <LocaleProvider lang={lang}>
                   <AchievementsProvider>
                     <ConsoleCommandProvider>
-                      <IconProvider icons={iconLibrary}>
-                        {children}
-                      </IconProvider>
+                      <IconProvider icons={iconLibrary}>{children}</IconProvider>
                     </ConsoleCommandProvider>
                   </AchievementsProvider>
                 </LocaleProvider>

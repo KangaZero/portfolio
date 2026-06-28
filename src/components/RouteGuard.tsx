@@ -1,21 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Button, Column, Flex, Heading, PasswordInput, Row, Spinner } from "@once-ui-system/core";
 import { usePathname } from "next/navigation";
-import { protectedRoutes, routes } from "@/resources";
-import {
-  Row,
-  Button,
-  Heading,
-  Column,
-  PasswordInput,
-  Flex,
-  Spinner,
-} from "@once-ui-system/core";
+import { useEffect, useState } from "react";
 import NotFound from "@/app/[lang]/not-found";
-import { useUserInfo } from "@/components/UserInfoProvider";
 import { useAchievements } from "@/components/AchievementsProvider";
+import { useUserInfo } from "@/components/UserInfoProvider";
+import { protectedRoutes, routes } from "@/resources";
 import StartTerminal from "./StartTerminal";
+
 // import { AnimatePresence, motion } from "motion/react";
 
 interface RouteGuardProps {
@@ -43,14 +36,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       const checkRouteEnabled = () => {
         if (!pathname) return false;
 
-        let extractedOutLocalePathname = pathname.match("(en|ja)")
-          ? pathname.split("/")
-          : pathname;
+        let extractedOutLocalePathname = pathname.match("(en|ja)") ? pathname.split("/") : pathname;
         // ? This is the home page
-        if (
-          extractedOutLocalePathname.length === 2 &&
-          extractedOutLocalePathname[0] === ""
-        ) {
+        if (extractedOutLocalePathname.length === 2 && extractedOutLocalePathname[0] === "") {
           extractedOutLocalePathname = "/";
           // ? These are static page routes
         } else if (extractedOutLocalePathname.length === 3) {

@@ -1,8 +1,8 @@
 "use client";
-import { about } from "@/resources";
-import { Column, Badge, Row, Text, Logo, Heading } from "@once-ui-system/core";
+import { Badge, Column, Heading, Logo, Row, Text } from "@once-ui-system/core";
 import { useLocale } from "@/components/LocaleProvider";
-import { TranslationKey } from "@/lib/i18n";
+import type { TranslationKey } from "@/lib/i18n";
+import { about } from "@/resources";
 
 const StudiesContainer = () => {
   const { translate } = useLocale();
@@ -28,28 +28,17 @@ const StudiesContainer = () => {
                 id={`${translate(`about.studies.institutions.${index}.name` as TranslationKey)}`}
                 variant="heading-strong-l"
               >
-                {translate(
-                  `about.studies.institutions.${index}.name` as TranslationKey,
-                )}
+                {translate(`about.studies.institutions.${index}.name` as TranslationKey)}
               </Text>
-              <Logo
-                style={{ marginLeft: "1rem" }}
-                wordmark={institution.logoWordmark}
-              />
+              <Logo style={{ marginLeft: "1rem" }} wordmark={institution.logoWordmark} />
             </Row>
             <Badge
-              id={translate(
-                `about.studies.institutions.${index}.title` as TranslationKey,
-              )}
+              id={translate(`about.studies.institutions.${index}.title` as TranslationKey)}
               effect={false}
-              title={translate(
-                `about.studies.institutions.${index}.title` as TranslationKey,
-              )}
+              title={translate(`about.studies.institutions.${index}.title` as TranslationKey)}
             />
             <Text variant="heading-default-xs" onBackground="neutral-weak">
-              {translate(
-                `about.studies.institutions.${index}.description` as TranslationKey,
-              )}
+              {translate(`about.studies.institutions.${index}.description` as TranslationKey)}
             </Text>
           </Column>
         ))}
@@ -57,4 +46,5 @@ const StudiesContainer = () => {
     </>
   );
 };
+
 export { StudiesContainer };

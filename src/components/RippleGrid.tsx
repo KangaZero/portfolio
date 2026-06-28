@@ -1,7 +1,7 @@
 "use client";
-import { useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Renderer, Program, Triangle, Mesh } from "ogl";
+import { Mesh, Program, Renderer, Triangle } from "ogl";
+import { useEffect, useRef } from "react";
 import "./RippleGrid.css";
 
 type Uniforms = {
@@ -254,13 +254,9 @@ void main() {
 
       const currentInfluence = uniforms.mouseInfluence.value;
       const targetInfluence = mouseInfluenceRef.current;
-      uniforms.mouseInfluence.value +=
-        (targetInfluence - currentInfluence) * 0.05;
+      uniforms.mouseInfluence.value += (targetInfluence - currentInfluence) * 0.05;
 
-      uniforms.mousePosition.value = [
-        mousePositionRef.current.x,
-        mousePositionRef.current.y,
-      ];
+      uniforms.mousePosition.value = [mousePositionRef.current.x, mousePositionRef.current.y];
 
       renderer.render({ scene: mesh });
       requestAnimationFrame(render);

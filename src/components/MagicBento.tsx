@@ -1,46 +1,27 @@
 "use client";
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-  useState,
-  useLayoutEffect,
-} from "react";
-import { gsap } from "gsap";
-//NOTE: gsap/Flip is the actual path, though doesn't seem to be recognized by local machine
-import { Flip } from "gsap/all";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  rectSortingStrategy,
-  useSortable,
-} from "@dnd-kit/sortable";
+import { arrayMove, rectSortingStrategy, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { gsap } from "gsap";
+//NOTE: gsap/Flip is the actual path, though doesn't seem to be recognized by local machine
+import { Flip } from "gsap/all";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./MagicBento.css";
 import "@/components/ui/header-date.css";
-import {
-  Dialog,
-  Column,
-  Feedback,
-  Text,
-  Kbd,
-  Button,
-  Row,
-} from "@once-ui-system/core";
+import { Button, Column, Dialog, Feedback, Kbd, Row, Text } from "@once-ui-system/core";
+import { GSDevTools } from "gsap/GSDevTools";
+import Image from "next/image";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { projectCardData } from "@/resources";
-import Image from "next/image";
-import { GSDevTools } from "gsap/GSDevTools";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -151,11 +132,7 @@ const ParticleCard: React.FC<{
 
     const { width, height } = cardRef.current.getBoundingClientRect();
     memoizedParticles.current = Array.from({ length: particleCount }, () =>
-      createParticleElement(
-        Math.random() * width,
-        Math.random() * height,
-        glowColor,
-      ),
+      createParticleElement(Math.random() * width, Math.random() * height, glowColor),
     );
     particlesInitialized.current = true;
   }, [particleCount, glowColor]);
@@ -450,8 +427,7 @@ const GlobalSpotlight: React.FC<{
         return;
       }
 
-      const { proximity, fadeDistance } =
-        calculateSpotlightValues(spotlightRadius);
+      const { proximity, fadeDistance } = calculateSpotlightValues(spotlightRadius);
       let minDistance = Infinity;
 
       cards.forEach((card) => {
@@ -470,17 +446,10 @@ const GlobalSpotlight: React.FC<{
         if (effectiveDistance <= proximity) {
           glowIntensity = 1;
         } else if (effectiveDistance <= fadeDistance) {
-          glowIntensity =
-            (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
+          glowIntensity = (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
         }
 
-        updateCardGlowProperties(
-          cardElement,
-          e.clientX,
-          e.clientY,
-          glowIntensity,
-          spotlightRadius,
-        );
+        updateCardGlowProperties(cardElement, e.clientX, e.clientY, glowIntensity, spotlightRadius);
       });
 
       gsap.to(spotlightRef.current, {
@@ -562,14 +531,7 @@ const SortableCard: React.FC<{
   clickEffect,
   enableMagnetism,
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
   });
 
@@ -592,28 +554,17 @@ const SortableCard: React.FC<{
 
       const projectCardDialog = document.getElementById("project-dialog");
       //NOTE: These 3 elements are related to moving the image
-      const projectCardDialogImageDiv = document.getElementById(
-        `project-dialog-image-div-${id}`,
-      );
-      const originalImageDiv = document.getElementById(
-        `original-project-image-div-${id}`,
-      );
-      const originalImageElement = document.getElementById(
-        `original-image-${id}`,
-      );
+      const projectCardDialogImageDiv = document.getElementById(`project-dialog-image-div-${id}`);
+      const originalImageDiv = document.getElementById(`original-project-image-div-${id}`);
+      const originalImageElement = document.getElementById(`original-image-${id}`);
       if (!projectCardDialogImageDiv || !projectCardDialog) {
-        if (retryCount >= retries)
-          return setIsProjectCardOpen(!isProjectCardOpen);
+        if (retryCount >= retries) return setIsProjectCardOpen(!isProjectCardOpen);
         return setTimeout(() => flipProjectImage(retryCount + 1), 0);
       }
 
       //NOTE: These 3 elements are related to moving the title
-      const originalTitleElement = document.getElementById(
-        `original-title-placement-${id}`,
-      );
-      const originalTitleDiv = document.getElementById(
-        `original_text_div-${id}`,
-      );
+      const originalTitleElement = document.getElementById(`original-title-placement-${id}`);
+      const originalTitleDiv = document.getElementById(`original_text_div-${id}`);
       const dialogTitleElement = document.getElementById("dialog-title");
 
       //NOTE: These 2 are related to moving the description
@@ -643,14 +594,8 @@ const SortableCard: React.FC<{
         originalImageElement.classList.toggle("dialog-image");
         originalImageDiv.appendChild(originalImageElement);
         originalTitleElement.classList.remove("dialog-title");
-        originalDescriptionElement.classList.remove(
-          "p5DateDay",
-          "p5DateMonthDay",
-        );
-        originalTitleDiv.prepend(
-          originalTitleElement,
-          originalDescriptionElement,
-        );
+        originalDescriptionElement.classList.remove("p5DateDay", "p5DateMonthDay");
+        originalTitleDiv.prepend(originalTitleElement, originalDescriptionElement);
       } else {
         projectCardDialogImageDiv.appendChild(originalImageElement);
         originalImageElement.classList.toggle("dialog-image");
@@ -725,14 +670,8 @@ const SortableCard: React.FC<{
                 />
               </div>
             </div>
-            <div
-              className="magic-bento-card__content"
-              id={`original_text_div-${id}`}
-            >
-              <h2
-                className="magic-bento-card__title"
-                id={`original-title-placement-${id}`}
-              >
+            <div className="magic-bento-card__content" id={`original_text_div-${id}`}>
+              <h2 className="magic-bento-card__title" id={`original-title-placement-${id}`}>
                 {card.title}
               </h2>
               <p
@@ -760,11 +699,7 @@ const SortableCard: React.FC<{
               id={`project-dialog-image-div-${id}`}
             ></div>
             <div role="heading" aria-level={1} id={`dialog-title`}></div>
-            <Feedback
-              vertical="center"
-              variant="info"
-              id={`project-dialog-description-div`}
-            >
+            <Feedback vertical="center" variant="info" id={`project-dialog-description-div`}>
               {card.description}
             </Feedback>
             <Text>Custom content can be added inside the dialog body.</Text>
@@ -949,8 +884,7 @@ const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () =>
-      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -1136,9 +1070,7 @@ const MagicBento: React.FC<BentoProps> = ({
       id: string;
     })[],
   ) => {
-    const isCorrectIndex = !items.some(
-      (item, index) => item.correctIndex !== index,
-    );
+    const isCorrectIndex = !items.some((item, index) => item.correctIndex !== index);
     if (!isCorrectIndex) return;
     transitionToSolvedCard();
   };
@@ -1161,9 +1093,7 @@ const MagicBento: React.FC<BentoProps> = ({
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
 
-        checkIfPuzzleIsSolvedAndExecuteFollowingTransition(
-          arrayMove(items, oldIndex, newIndex),
-        );
+        checkIfPuzzleIsSolvedAndExecuteFollowingTransition(arrayMove(items, oldIndex, newIndex));
         return arrayMove(items, oldIndex, newIndex);
       });
     }
@@ -1204,10 +1134,7 @@ const MagicBento: React.FC<BentoProps> = ({
           handleDragEnd(e);
         }}
       >
-        <SortableContext
-          items={items.map((item) => item.id)}
-          strategy={rectSortingStrategy}
-        >
+        <SortableContext items={items.map((item) => item.id)} strategy={rectSortingStrategy}>
           <BentoCardGrid gridRef={gridRef}>
             <div
               style={{ opacity: isCardsCombined ? 1 : 0 }}
@@ -1215,9 +1142,7 @@ const MagicBento: React.FC<BentoProps> = ({
               className="magic-bento-card magic-bento-card--combined"
             >
               <div className="magic-bento-card__header">
-                <span className="magic-bento-card__label">
-                  🎉 Puzzle Solved!
-                </span>
+                <span className="magic-bento-card__label">🎉 Puzzle Solved!</span>
               </div>
               <div className="magic-bento-card__content">
                 <h3 className="magic-bento-card__title">Congratulations!</h3>
@@ -1225,81 +1150,74 @@ const MagicBento: React.FC<BentoProps> = ({
                   You&apos;ve successfully arranged all the pieces.
                 </p>
                 <Row center marginTop="12">
-                  <Button
-                    data-border="rounded"
-                    onClick={handleResetPuzzle}
-                    size="s"
-                  >
+                  <Button data-border="rounded" onClick={handleResetPuzzle} size="s">
                     Reset
                   </Button>
                 </Row>
               </div>
             </div>
-            {!isCardsCombined && (
-              <>
-                {items.map((card, index) => {
-                  const baseClassName = `magic-bento-card ${textAutoHide ? "magic-bento-card--text-autohide" : ""} ${enableBorderGlow ? "magic-bento-card--border-glow" : ""}`;
-                  const cardProps = {
-                    className: baseClassName,
-                  };
+            {!isCardsCombined &&
+              items.map((card, index) => {
+                const baseClassName = `magic-bento-card ${textAutoHide ? "magic-bento-card--text-autohide" : ""} ${enableBorderGlow ? "magic-bento-card--border-glow" : ""}`;
+                const cardProps = {
+                  className: baseClassName,
+                };
 
-                  return (
-                    <React.Fragment key={card.id}>
-                      <SortableCard
-                        key={card.id}
-                        id={card.id}
-                        card={card}
-                        index={index}
-                        baseClassName={baseClassName}
-                        cardProps={cardProps}
-                        enableStars={enableStars}
-                        shouldDisableAnimations={shouldDisableAnimations}
-                        particleCount={particleCount}
-                        glowColor={glowColor}
-                        enableTilt={enableTilt}
-                        clickEffect={clickEffect}
-                        enableMagnetism={enableMagnetism}
-                        enableBorderGlow={enableBorderGlow}
-                        textAutoHide={textAutoHide}
-                      />
+                return (
+                  <React.Fragment key={card.id}>
+                    <SortableCard
+                      key={card.id}
+                      id={card.id}
+                      card={card}
+                      index={index}
+                      baseClassName={baseClassName}
+                      cardProps={cardProps}
+                      enableStars={enableStars}
+                      shouldDisableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={enableTilt}
+                      clickEffect={clickEffect}
+                      enableMagnetism={enableMagnetism}
+                      enableBorderGlow={enableBorderGlow}
+                      textAutoHide={textAutoHide}
+                    />
+                    <div
+                      className="detail"
+                      ref={detailRef}
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        visibility: "hidden",
+                        background: "#fff",
+                        borderRadius: "1rem",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                        padding: "2rem",
+                        zIndex: 100,
+                      }}
+                    >
                       <div
-                        className="detail"
-                        ref={detailRef}
-                        style={{
-                          position: "absolute",
-                          left: "50%",
-                          top: "50%",
-                          transform: "translate(-50%, -50%)",
-                          visibility: "hidden",
-                          background: "#fff",
-                          borderRadius: "1rem",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-                          padding: "2rem",
-                          zIndex: 100,
-                        }}
+                        className="content"
+                        ref={detailContentRef}
+                        style={{ transform: "translateY(-100%)" }}
                       >
-                        <div
-                          className="content"
-                          ref={detailContentRef}
-                          style={{ transform: "translateY(-100%)" }}
-                        >
-                          <Image
-                            src={card.image || ""}
-                            alt={card.title || ""}
-                            ref={detailImageRef}
-                            width={200}
-                            height={200}
-                          />
-                          <div className="title">{card.title}</div>
-                          <div className="secondary">{card.label}</div>
-                          <div className="description">{card.description}</div>
-                        </div>
+                        <Image
+                          src={card.image || ""}
+                          alt={card.title || ""}
+                          ref={detailImageRef}
+                          width={200}
+                          height={200}
+                        />
+                        <div className="title">{card.title}</div>
+                        <div className="secondary">{card.label}</div>
+                        <div className="description">{card.description}</div>
                       </div>
-                    </React.Fragment>
-                  );
-                })}
-              </>
-            )}
+                    </div>
+                  </React.Fragment>
+                );
+              })}
           </BentoCardGrid>
         </SortableContext>
       </DndContext>

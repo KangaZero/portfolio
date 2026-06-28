@@ -180,10 +180,7 @@ class BehaviorTracker {
     document.removeEventListener("touchstart", this.handleTouchStart);
     document.removeEventListener("touchmove", this.handleTouchMove);
     document.removeEventListener("touchend", this.handleTouchEnd);
-    document.removeEventListener(
-      "visibilitychange",
-      this.handleVisibilityChange,
-    );
+    document.removeEventListener("visibilitychange", this.handleVisibilityChange);
     window.removeEventListener("focus", this.handleFocus);
     window.removeEventListener("blur", this.handleBlur);
 
@@ -210,34 +207,28 @@ class BehaviorTracker {
     // Calculate averages
     const avgMouseSpeed =
       s.mouseSpeedSamples.length > 0
-        ? s.mouseSpeedSamples.reduce((a, b) => a + b, 0) /
-          s.mouseSpeedSamples.length
+        ? s.mouseSpeedSamples.reduce((a, b) => a + b, 0) / s.mouseSpeedSamples.length
         : 0;
 
     const avgMouseAccel =
       s.mouseAccelSamples.length > 0
-        ? s.mouseAccelSamples.reduce((a, b) => a + b, 0) /
-          s.mouseAccelSamples.length
+        ? s.mouseAccelSamples.reduce((a, b) => a + b, 0) / s.mouseAccelSamples.length
         : 0;
 
     const avgScrollSpeed =
       s.scrollSpeedSamples.length > 0
-        ? s.scrollSpeedSamples.reduce((a, b) => a + b, 0) /
-          s.scrollSpeedSamples.length
+        ? s.scrollSpeedSamples.reduce((a, b) => a + b, 0) / s.scrollSpeedSamples.length
         : 0;
 
     const avgClickInterval =
       s.clickTimes.length > 1
-        ? s.clickTimes
-            .slice(1)
-            .reduce((sum, time, i) => sum + (time - s.clickTimes[i]), 0) /
+        ? s.clickTimes.slice(1).reduce((sum, time, i) => sum + (time - s.clickTimes[i]), 0) /
           (s.clickTimes.length - 1)
         : 0;
 
     const avgKeyHoldTime =
       s.keyHoldDurations.length > 0
-        ? s.keyHoldDurations.reduce((a, b) => a + b, 0) /
-          s.keyHoldDurations.length
+        ? s.keyHoldDurations.reduce((a, b) => a + b, 0) / s.keyHoldDurations.length
         : 0;
 
     const avgKeyInterval =
@@ -252,8 +243,7 @@ class BehaviorTracker {
 
     // Typing speed (chars per minute)
     const sessionMinutes = (now - s.pageLoadTime) / 60000;
-    const typingSpeed =
-      sessionMinutes > 0 ? s.totalKeysPressed / sessionMinutes : 0;
+    const typingSpeed = sessionMinutes > 0 ? s.totalKeysPressed / sessionMinutes : 0;
 
     // Calculate focus time
     let totalFocus = s.totalFocusTime;
@@ -333,10 +323,7 @@ class BehaviorTracker {
 
         // Calculate acceleration
         if (this.state.mouseSpeedSamples.length > 1) {
-          const prevSpeed =
-            this.state.mouseSpeedSamples[
-              this.state.mouseSpeedSamples.length - 2
-            ];
+          const prevSpeed = this.state.mouseSpeedSamples[this.state.mouseSpeedSamples.length - 2];
           const accel = (Math.abs(speed - prevSpeed) / dt) * 1000;
           this.state.mouseAccelSamples.push(accel);
           if (this.state.mouseAccelSamples.length > 100) {
@@ -401,16 +388,10 @@ class BehaviorTracker {
     }
 
     // Calculate scroll depth
-    const docHeight = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-    );
+    const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
     const viewportHeight = window.innerHeight;
     const scrollDepth = (scrollY + viewportHeight) / docHeight;
-    this.state.maxScrollDepth = Math.max(
-      this.state.maxScrollDepth,
-      scrollDepth,
-    );
+    this.state.maxScrollDepth = Math.max(this.state.maxScrollDepth, scrollDepth);
 
     this.state.lastScrollY = scrollY;
     this.state.lastScrollTime = now;
@@ -460,9 +441,7 @@ class BehaviorTracker {
     // Record touch pressure if available
     for (const touch of Array.from(e.touches)) {
       if ("force" in touch && (touch as Touch & { force: number }).force > 0) {
-        this.state.touchPressures.push(
-          (touch as Touch & { force: number }).force,
-        );
+        this.state.touchPressures.push((touch as Touch & { force: number }).force);
         if (this.state.touchPressures.length > 50) {
           this.state.touchPressures.shift();
         }
@@ -487,9 +466,7 @@ class BehaviorTracker {
     // Record pressure during move
     for (const touch of Array.from(e.touches)) {
       if ("force" in touch && (touch as Touch & { force: number }).force > 0) {
-        this.state.touchPressures.push(
-          (touch as Touch & { force: number }).force,
-        );
+        this.state.touchPressures.push((touch as Touch & { force: number }).force);
         if (this.state.touchPressures.length > 50) {
           this.state.touchPressures.shift();
         }

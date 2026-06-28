@@ -1,20 +1,20 @@
 .achievement-filter-tag {
-    cursor: pointer;
-    transform-origin: center;
-    /*transition: all 0.2s ease-in-out;*/
+  cursor: pointer;
+  transform-origin: center;
+  /*transition: all 0.2s ease-in-out;*/
 }
 .achievement-filter-tag:hover {
-    opacity: 0.8;
-    scale: 1.05;
-    transition: all 0.25s ease-in-out;
+  opacity: 0.8;
+  scale: 1.05;
+  transition: all 0.25s ease-in-out;
 }
 
 .achievement-filter-tag:active {
-    opacity: 0.9;
-    scale: 0.95;
-    transition: all 0.1s ease-in-out;
+  opacity: 0.9;
+  scale: 0.95;
+  transition: all 0.1s ease-in-out;
 }
 
 .grid-reorder {
-    grid-template-columns: 1fr;
+  grid-template-columns: 1fr;
 }

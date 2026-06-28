@@ -1,15 +1,15 @@
 h1 {
-    text-align: center;
+  text-align: center;
 }
 .word {
-    background-size: 100%;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    /*-webkit-text-fill-color: transparent;
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  /*-webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;*/
-    background-clip: text;
-    min-height: 50px;
-    padding: 1rem;
-    margin: 0.25rem;
-    border-radius: 10px;
+  background-clip: text;
+  min-height: 50px;
+  padding: 1rem;
+  margin: 0.25rem;
+  border-radius: 10px;
 }

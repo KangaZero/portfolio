@@ -1,12 +1,12 @@
 "use client";
 import "./header-date.css";
 import "@/utils/animations/bounceIn.css";
+import { Icon, Skeleton } from "@once-ui-system/core";
 import { useState } from "react";
 import { getDailyWeatherForecast } from "@/api/queries/getDailyWeatherForecast";
-import { person, WMOCodeDescriptions } from "@/resources";
-import { Icon, Skeleton } from "@once-ui-system/core";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { useLocale } from "@/components/LocaleProvider";
+import { person, WMOCodeDescriptions } from "@/resources";
 
 const HeaderDate = () => {
   const { unlockAchievement } = useAchievements();
@@ -20,28 +20,20 @@ const HeaderDate = () => {
   });
   const [isHovered, setIsHovered] = useState(false);
   const now = new Date();
-  const day = translate(
-    `headerDate.days.${now.getDay()}` as "headerDate.days.0",
-  );
+  const day = translate(`headerDate.days.${now.getDay()}` as "headerDate.days.0");
   const allButLastCharDay = day.slice(0, -1);
   const lastDayChar = day.slice(-1);
   const date = now.getDate();
   const hour = now.getHours();
   const isDay = data ? Boolean(data.current.is_day) : hour >= 6 && hour < 18;
-  const month = translate(
-    `headerDate.months.${now.getMonth()}` as "headerDate.months.0",
-  );
+  const month = translate(`headerDate.months.${now.getMonth()}` as "headerDate.months.0");
   const temperature = data ? Math.round(data.current.temperature_2m) : 0;
 
   const weatherDescription =
-    WMOCodeDescriptions[data?.current.weather_code || 0][
-      isDay ? "day" : "night"
-    ].description;
+    WMOCodeDescriptions[data?.current.weather_code || 0][isDay ? "day" : "night"].description;
   /*Variable is based on WMO code standards, if the data cannot be retrieved, it will default to Sunny/Clear icon */
   const weatherIcon =
-    WMOCodeDescriptions[data?.current.weather_code || 0][
-      isDay ? "day" : "night"
-    ].icon;
+    WMOCodeDescriptions[data?.current.weather_code || 0][isDay ? "day" : "night"].icon;
 
   function getTemperatureColor(temp: number) {
     switch (true) {
@@ -78,22 +70,12 @@ const HeaderDate = () => {
 
       <div className={`shape-wrapper ${isHovered ? "active" : ""}`}>
         <div className="shape cyan-fill jelly">
-          <svg
-            width="100%"
-            height="35"
-            viewBox="0 0 200 35"
-            preserveAspectRatio="none"
-          >
+          <svg width="100%" height="35" viewBox="0 0 200 35" preserveAspectRatio="none">
             <rect width="200" height="35" fill="#00FFFF" />
           </svg>
         </div>
         <div className="shape red-fill jelly">
-          <svg
-            width="100%"
-            height="35"
-            viewBox="0 0 200 35"
-            preserveAspectRatio="none"
-          >
+          <svg width="100%" height="35" viewBox="0 0 200 35" preserveAspectRatio="none">
             <rect width="200" height="35" fill="#FF0000" />
           </svg>
         </div>
@@ -111,11 +93,7 @@ const HeaderDate = () => {
                 className="p5DateWeatherIcon bounceIn"
               />
             ) : (
-              <Skeleton
-                shape="circle"
-                className="p5DateWeatherIcon bounceIn"
-                delay="1"
-              />
+              <Skeleton shape="circle" className="p5DateWeatherIcon bounceIn" delay="1" />
             )}
           </div>
           <div className="p5DateMonthDay" style={{ margin: data ? 0 : 0 }}>

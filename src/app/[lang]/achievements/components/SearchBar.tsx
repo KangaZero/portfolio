@@ -1,13 +1,6 @@
+import { Column, DropdownWrapper, Icon, IconButton, Input, Option } from "@once-ui-system/core";
+import type { ReactNode } from "react";
 import type { Achievement } from "@/types";
-import {
-  Column,
-  DropdownWrapper,
-  Icon,
-  IconButton,
-  Input,
-  Option,
-} from "@once-ui-system/core";
-import { ReactNode } from "react";
 
 export default function SearchBar({
   currentSearchTerm,
@@ -57,9 +50,7 @@ export default function SearchBar({
   const handleSelectFilterOption = (value: Achievement["rarity"]) => {
     if (!value) return;
     if (currentSelectedFilters.includes(value)) {
-      setCurrentSelectedFilters(
-        currentSelectedFilters.filter((filter) => filter !== value),
-      );
+      setCurrentSelectedFilters(currentSelectedFilters.filter((filter) => filter !== value));
     } else {
       setCurrentSelectedFilters([...currentSelectedFilters, value]);
     }
@@ -70,9 +61,7 @@ export default function SearchBar({
       id="achievement-search"
       label="Search Achievements"
       validate={validateSearchInput}
-      description={
-        currentSearchTerm.trim() !== "" ? searchResultDescription : ""
-      }
+      description={currentSearchTerm.trim() !== "" ? searchResultDescription : ""}
       value={currentSearchTerm}
       onChange={handleSearchInputChange}
       hasPrefix={<Icon name="search" size="xs" />}

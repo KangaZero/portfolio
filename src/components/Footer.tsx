@@ -1,19 +1,18 @@
 "use client";
 import {
-  Row,
-  IconButton,
-  SmartLink,
-  Text,
-  Logo,
-  StatusIndicator,
   Badge,
+  IconButton,
+  Logo,
+  Row,
+  SmartLink,
+  StatusIndicator,
+  Text,
 } from "@once-ui-system/core";
-import { person, social } from "@/resources";
-import styles from "./Footer.module.scss";
-
+import { Suspense } from "react";
 //Api
 import { getGithubProfile } from "@/api/queries/getGithubProfile";
-import { Suspense } from "react";
+import { person, social } from "@/resources";
+import styles from "./Footer.module.scss";
 
 const CurrentYearText = () => {
   const currentYear = new Date().getFullYear();
@@ -21,11 +20,7 @@ const CurrentYearText = () => {
 };
 
 export const Footer = () => {
-  const {
-    data: githubData,
-    isLoading,
-    isError,
-  } = getGithubProfile(person.githubUsername);
+  const { data: githubData, isLoading, isError } = getGithubProfile(person.githubUsername);
 
   return (
     <Row
@@ -58,9 +53,7 @@ export const Footer = () => {
           <Text size="xs" onBackground="neutral-weak">
             {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}
             Built with
-            <SmartLink href="https://once-ui.com/products/magic-portfolio">
-              Once UI
-            </SmartLink>
+            <SmartLink href="https://once-ui.com/products/magic-portfolio">Once UI</SmartLink>
           </Text>
         </Text>
         <Row gap="12" vertical="center">
@@ -107,10 +100,7 @@ export const Footer = () => {
                 />
               ),
           )}
-          <Logo
-            wordmark="/trademarks/kanga-zero.svg"
-            className={styles.logoDesktop}
-          />
+          <Logo wordmark="/trademarks/kanga-zero.svg" className={styles.logoDesktop} />
         </Row>
         <Row center hide s={{ hide: false }}>
           <Logo wordmark="/trademarks/kanga-zero.svg" />

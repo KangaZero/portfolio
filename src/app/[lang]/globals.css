@@ -1,46 +1,43 @@
 :root {
-    --border: light-dark(#374151, #e5e7eb);
-    --scrollbar-glow: light-dark(
-        rgba(0, 150, 255, 0.15),
-        rgba(0, 200, 255, 0.1)
-    );
+  --border: light-dark(#374151, #e5e7eb);
+  --scrollbar-glow: light-dark(rgba(0, 150, 255, 0.15), rgba(0, 200, 255, 0.1));
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
-    padding: 0;
+  box-sizing: inherit;
+  padding: 0;
 }
 /*FOR css light-dark() to work forcibly*/
 [data-theme="light"] {
-    color-scheme: light;
+  color-scheme: light;
 }
 
 [data-theme="dark"] {
-    color-scheme: dark;
+  color-scheme: dark;
 }
 
 html {
-    max-width: 100dvw;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+  max-width: 100dvw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 body::-webkit-scrollbar-thumb {
-    background-color: var(--border);
-    border-radius: 24px;
-    border: 3px solid var(--scrollbar-glow);
-    background-clip: content-box;
+  background-color: var(--border);
+  border-radius: 24px;
+  border: 3px solid var(--scrollbar-glow);
+  background-clip: content-box;
 }
 
 /*@import "tailwindcss";

@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import "./AvatarContainer.css";
-import { person } from "@/resources";
 import { useTheme } from "@once-ui-system/core";
+import { person } from "@/resources";
 
 const AvatarContainer = () => {
   const { theme } = useTheme();

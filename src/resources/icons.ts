@@ -1,96 +1,91 @@
-import { IconType } from "react-icons";
-
+import type { IconType } from "react-icons";
 import {
-  HiArrowUpRight,
-  HiOutlineLink,
-  HiArrowTopRightOnSquare,
-  HiEnvelope,
-  HiCalendarDays,
-  HiArrowRight,
-  HiOutlineEye,
-  HiOutlineEyeSlash,
-  HiOutlineDocument,
-  HiOutlineGlobeAsiaAustralia,
-  HiOutlineRocketLaunch,
-} from "react-icons/hi2";
-import { TbLanguageHiragana } from "react-icons/tb";
-import { RiEnglishInput } from "react-icons/ri";
-import {
-  PiHouseDuotone,
-  PiUserCircleDuotone,
-  PiGridFourDuotone,
-  PiBookBookmarkDuotone,
-  PiImageDuotone,
-} from "react-icons/pi";
-
-import {
-  SiJavascript,
-  SiTypescript,
-  SiGnubash,
-  SiNextdotjs,
-  SiFigma,
-  SiSupabase,
-  SiVim,
-  SiNixos,
-  SiDrizzle,
-} from "react-icons/si";
-
-import {
-  MdBluetoothDisabled,
-  MdOutlineCancel,
-  MdFoggy,
-  MdThunderstorm,
-  MdNightsStay,
-} from "react-icons/md";
-
-import {
-  FaDiscord,
-  FaFilter,
-  FaGithub,
-  FaLinkedin,
-  FaX,
-  FaThreads,
-  FaInstagram,
-  FaVuejs,
-  FaXTwitter,
-  FaFacebook,
-  FaPinterest,
-  FaWhatsapp,
-  FaReddit,
-  FaTelegram,
-  FaRegSun,
-  FaReact,
-  FaRust,
-  FaGolang,
-  FaTrophy,
-} from "react-icons/fa6";
-
-import {
-  FaBluetooth,
-  FaBatteryFull,
-  FaBatteryEmpty,
-  FaBatteryQuarter,
-  FaBatteryHalf,
-  FaBatteryThreeQuarters,
-  FaShareAlt,
-  FaCloud,
-  FaWindows,
-  FaLinux,
   FaApple,
+  FaBatteryEmpty,
+  FaBatteryFull,
+  FaBatteryHalf,
+  FaBatteryQuarter,
+  FaBatteryThreeQuarters,
+  FaBluetooth,
+  FaCloud,
   FaGitAlt,
+  FaLinux,
+  FaShareAlt,
   FaSnowflake,
+  FaWindows,
 } from "react-icons/fa";
 import {
+  FaDiscord,
+  FaFacebook,
+  FaFilter,
+  FaGithub,
+  FaGolang,
+  FaInstagram,
+  FaLinkedin,
+  FaPinterest,
+  FaReact,
+  FaReddit,
+  FaRegSun,
+  FaRust,
+  FaTelegram,
+  FaThreads,
+  FaTrophy,
+  FaVuejs,
+  FaWhatsapp,
+  FaX,
+  FaXTwitter,
+} from "react-icons/fa6";
+import {
+  HiArrowRight,
+  HiArrowTopRightOnSquare,
+  HiArrowUpRight,
+  HiCalendarDays,
+  HiEnvelope,
+  HiOutlineDocument,
+  HiOutlineEye,
+  HiOutlineEyeSlash,
+  HiOutlineGlobeAsiaAustralia,
+  HiOutlineLink,
+  HiOutlineRocketLaunch,
+} from "react-icons/hi2";
+import {
   IoIosBatteryCharging,
+  IoIosCloudy,
+  IoIosCloudyNight,
+  IoIosRainy,
   IoIosSunny,
   IoMdClose,
   IoMdPartlySunny,
-  IoIosCloudyNight,
-  IoIosCloudy,
-  IoIosRainy,
-  IoMdTime,
   IoMdSend,
+  IoMdTime,
 } from "react-icons/io";
+import {
+  MdBluetoothDisabled,
+  MdFoggy,
+  MdNightsStay,
+  MdOutlineCancel,
+  MdThunderstorm,
+} from "react-icons/md";
+import {
+  PiBookBookmarkDuotone,
+  PiGridFourDuotone,
+  PiHouseDuotone,
+  PiImageDuotone,
+  PiUserCircleDuotone,
+} from "react-icons/pi";
+import { RiEnglishInput } from "react-icons/ri";
+import {
+  SiDrizzle,
+  SiFigma,
+  SiGnubash,
+  SiJavascript,
+  SiNextdotjs,
+  SiNixos,
+  SiSupabase,
+  SiTypescript,
+  SiVim,
+} from "react-icons/si";
+import { TbLanguageHiragana } from "react-icons/tb";
 
 export const iconLibrary = {
   apple: FaApple,
