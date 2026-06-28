@@ -126,7 +126,7 @@ export default function AchievementsWrapper() {
         </ToggleButton>
       </Row>
       {userInfo?.localStorageEnabled && <></>}
-      <Row s={{ width: "100%" }} m={{ width: "80%" }}>
+      <Row s={{ style: { width: "100%" } }} m={{ style: { width: "80%" } }}>
         <SearchBar
           currentSearchTerm={currentSearchTerm}
           setCurrentSearchTerm={setCurrentSearchTerm}

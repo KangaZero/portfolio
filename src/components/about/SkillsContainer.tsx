@@ -34,7 +34,7 @@ const SkillsContainer = () => {
 
           return (
             <React.Fragment key={item.name}>
-              <Row s={{ justifyContent: "center" }}>
+              <Row s={{ horizontal: "center" }}>
                 <div
                   tabIndex={0}
                   aria-label={`${item.name} - ${item.level}`}
