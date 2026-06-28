@@ -20,7 +20,7 @@ A feature-rich, interactive portfolio built on [Next.js](https://nextjs.org). Go
 | Icons | react-icons 5 |
 | Lint / format | Biome 2 |
 | Package manager | pnpm 11 |
-| Runtime | Node.js 26 |
+| Runtime | Node.js 24 |
 
 ---
 
@@ -55,7 +55,9 @@ src/
 ├── lib/
 │   └── i18n/                  # Type-safe translations (en · ja)
 ├── resources/
-│   ├── content.tsx            # Central content config
+│   ├── content.tsx            # Person, pages, social, terminal, bento config
+│   ├── content.achievements.ts# Achievement definitions and trophy mapping
+│   ├── content.weather.ts     # WMO weather code descriptions
 │   ├── once-ui.config.ts      # Routes, theme, fonts
 │   └── icons.ts               # Custom icon library
 ├── types/                     # Shared TypeScript types
@@ -102,7 +104,11 @@ Individual routes can be gated — configure protected paths in `once-ui.config.
 
 All content is authored in two places:
 
-**`src/resources/content.tsx`** — single source of truth for person metadata (name, avatar, location, timezone, languages, technologies), social links, skills, achievement definitions, terminal commands, and MagicBento card data.
+**`src/resources/content.tsx`** — person metadata (name, avatar, location, timezone, languages, technologies), social links, skills, terminal commands, and MagicBento card data.
+
+**`src/resources/content.achievements.ts`** — achievement definitions, rarity tiers, trophy mapping, and `LOCAL_STORAGE_KEY`.
+
+**`src/resources/content.weather.ts`** — WMO weather code descriptions and icon mappings.
 
 **MDX files** — long-form content lives alongside the routes:
 - `src/app/[lang]/blog/posts/*.mdx`
@@ -118,7 +124,7 @@ Supported frontmatter keys: `title`, `subtitle`, `publishedAt`, `summary`, `imag
 
 ### Requirements
 
-- Node.js ≥ 26
+- Node.js 24
 - pnpm 11
 
 The easiest way to get the right versions is via the included Nix dev shell (see below).
@@ -175,11 +181,12 @@ Equivalent pnpm scripts are also available (`pnpm dev`, `pnpm build`, etc.).
 
 ## Git Hooks (nix-managed)
 
-The pre-commit hook runs three checks in sequence:
+The pre-commit hook runs four checks in sequence:
 
 1. **Biome** — format + lint with auto-fix on staged files
-2. **tsc** — full type-check
-3. **next build** — full production build
+2. **check-imports** — ensures no `../` relative imports (enforces `@/*` alias)
+3. **tsc** — full type-check
+4. **next build** — full production build
 
 Inside the nix dev shell these are managed by `git-hooks.nix`. Outside nix, run `just pre-commit` to execute the same checks manually before pushing.
 
