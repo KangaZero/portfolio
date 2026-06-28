@@ -53,8 +53,6 @@
               name = "next build";
               entry = "${pkgs.pnpm}/bin/pnpm build";
               pass_filenames = false;
-              # Build is heavy; only run it when source/config actually changed.
-              stages = [ "pre-push" ];
             };
           };
         };
