@@ -2,7 +2,7 @@
 
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import type { ClientInfo, TypeSafeClientInfo } from "@/types";
-import { getStartInitializedCookie } from "@/utils/getStartInitializedCookie";
+import { getStartInitializedCookie } from "@/utils/cookies";
 import { whoAmI } from "@/utils/getUserFingerprint";
 
 type UserInfoContextType = {

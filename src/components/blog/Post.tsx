@@ -3,7 +3,7 @@
 import { Avatar, Card, Column, Media, Row, Text } from "@once-ui-system/core";
 import { person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import type { CustomMetadata } from "@/utils/utils";
+import type { CustomMetadata } from "@/utils/mdx";
 
 interface PostProps {
   post: {

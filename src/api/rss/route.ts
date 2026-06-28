@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { baseURL, blog, person } from "@/resources";
-import { getPosts } from "@/utils/utils";
+import { getPosts } from "@/utils/mdx";
 
 export async function GET() {
   const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);

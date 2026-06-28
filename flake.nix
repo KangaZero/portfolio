@@ -54,6 +54,21 @@
               entry = "${pkgs.pnpm}/bin/pnpm build";
               pass_filenames = false;
             };
+            check-imports = {
+              enable = true;
+              name = "check @/* imports (no ../ parent imports)";
+              entry =
+                let
+                  script = pkgs.writeShellScript "check-imports" ''
+                    if grep -rn 'from "\.\.' src --include="*.ts" --include="*.tsx" | grep -v '//'; then
+                      echo "ERROR: use @/* alias instead of ../ relative imports"
+                      exit 1
+                    fi
+                  '';
+                in
+                "${script}";
+              pass_filenames = false;
+            };
           };
         };
       in

@@ -16,7 +16,7 @@ import { CustomMDX, ScrollToHash } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { about, baseURL, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/utils";
+import { getPosts } from "@/utils/mdx";
 
 export async function generateStaticParams(): Promise<{ lang: string; slug: string }[]> {
   const languages = ["en", "ja"];

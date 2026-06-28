@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect } from "react";
-import { useAchievements } from "../AchievementsProvider";
+import { useAchievements } from "@/components/AchievementsProvider";
 import styles from "./achievement-toast.module.scss";
 // import StarBorder from "../StarBorder";
 

@@ -16,11 +16,11 @@ import {
   useRef,
   useState,
 } from "react";
+import { LocaleToggle } from "@/components/LocaleToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useUserInfo } from "@/components/UserInfoProvider";
 import { cn } from "@/lib/utils";
 import { terminalCommand } from "@/resources";
-import { LocaleToggle } from "../LocaleToggle";
-import { ThemeToggle } from "../ThemeToggle";
-import { useUserInfo } from "../UserInfoProvider";
 
 interface SequenceContextValue {
   completeItem: (index: number) => void;
