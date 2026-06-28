@@ -1,12 +1,3 @@
-:root {
-  --text-shadow-hsl-h: 73;
-  --text-shadow-hsl-s: 9.5%;
-  --text-shadow-hsl-l: 71%;
-  --text-shadow-hsl: 73 9.5% 71%;
-  --animate-bounce-in-duration: 0.5s;
-  --animated-bounce-in-delay: 0.1s;
-}
-
 /*NOTE: Limited availability as of 2025/01/13, thus not implemented*/
 @function --set-text-shadow-hsl(
   --a: 1,

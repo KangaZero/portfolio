@@ -1,6 +1,6 @@
 import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
-import "@/resources/custom.css";
+import "@/styles/index.css";
 import "@/app/[lang]/globals.css";
 import {
   Background,
