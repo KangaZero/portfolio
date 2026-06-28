@@ -1,8 +1,35 @@
-/* :root {
-  /*
-  /* Example setup for custom colors */
-/* Generate at: https://once-ui.com/customize */
+/* ============================================================
+   Global CSS custom properties — single source of truth.
+   Component-scoped variables stay in their own CSS files.
+   ============================================================ */
+
+/* Scrollbar & border */
+:root {
+  --border: light-dark(#374151, #e5e7eb);
+  --scrollbar-glow: light-dark(rgba(0, 150, 255, 0.15), rgba(0, 200, 255, 0.1));
+}
+
+/* Text-shadow HSL components (AnimatedTooltip · HeaderDate · AchievementToast) */
+:root {
+  --text-shadow-hsl-h: 73;
+  --text-shadow-hsl-s: 9.5%;
+  --text-shadow-hsl-l: 71%;
+  --text-shadow-hsl: 73 9.5% 71%;
+}
+
+/* Animation timing */
+:root {
+  --animate-bounce-in-duration: 0.5s;
+  --animated-bounce-in-delay: 0.1s;
+}
+
+/* ============================================================
+   Once UI colour palette reference — commented out.
+   Activate by uncommenting and removing the default tokens above.
+   Generate a custom palette at: https://once-ui.com/customize
+   ============================================================ */
 /*
+:root {
   --scheme-brand-100: #08002f;
   --scheme-brand-200:  #04025c;
   --scheme-brand-300:  #1f398e;
@@ -50,5 +77,5 @@
   --scheme-neutral-600-10: rgba(137,152,159,0.1);
   --scheme-neutral-600-30: rgba(137,152,159,0.3);
   --scheme-neutral-600-50: rgba(137,152,159,0.5);
-  /*
-}*/
+}
+*/
