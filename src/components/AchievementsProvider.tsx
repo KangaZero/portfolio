@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { achievementsList, LOCAL_STORAGE_KEY, negativeAchievement } from "@/resources/content";
+import { achievementsList, LOCAL_STORAGE_KEY, negativeAchievement } from "@/resources";
 import type { Achievement } from "@/types/content.types";
 import { timeDiffInMilliseconds } from "@/utils/timeDiffInMilliseconds";
 
