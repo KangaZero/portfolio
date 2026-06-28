@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import type { Locale } from "./lib/i18n";
 
 const locales: Locale[] = ["en", "ja"];
@@ -14,23 +14,16 @@ export function proxy(request: NextRequest) {
   );
 
   let localeFromCookie = request.cookies.get("NEXT_LOCALE")?.value;
-  if (
-    !localeFromCookie ||
-    (localeFromCookie !== "ja" && localeFromCookie !== "en")
-  )
+  if (!localeFromCookie || (localeFromCookie !== "ja" && localeFromCookie !== "en"))
     localeFromCookie = "en";
   //nextjs.org/docs/messages/proxy-relative-urls
   if (!pathnameHasLocale) {
     if (pathname !== "/" && pathname !== "") {
       request.nextUrl.pathname = `/${localeFromCookie}/${pathname}`;
-      return NextResponse.redirect(
-        new URL(`/${localeFromCookie}/${pathname}`, request.url),
-      );
+      return NextResponse.redirect(new URL(`/${localeFromCookie}/${pathname}`, request.url));
     } else if (pathname === "/" || pathname === "") {
       request.nextUrl.pathname = `/${localeFromCookie}`;
-      return NextResponse.redirect(
-        new URL(`/${localeFromCookie}`, request.url),
-      );
+      return NextResponse.redirect(new URL(`/${localeFromCookie}`, request.url));
     }
   }
   return NextResponse.next();

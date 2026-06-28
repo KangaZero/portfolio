@@ -318,26 +318,14 @@ export interface UserProfile {
   // Creepy AI inferences
   relationshipStatus?: "single" | "in-relationship" | "married" | "unknown";
   relationshipReason?: string;
-  educationLevel?:
-    | "high-school"
-    | "some-college"
-    | "bachelors"
-    | "masters"
-    | "phd"
-    | "unknown";
+  educationLevel?: "high-school" | "some-college" | "bachelors" | "masters" | "phd" | "unknown";
   educationReason?: string;
   politicalLeaning?: "liberal" | "moderate" | "conservative" | "unknown";
   politicalReason?: string;
   lifeSituation?: string;
   financialHealth?: "struggling" | "stable" | "comfortable" | "wealthy";
   financialReason?: string;
-  workStyle?:
-    | "remote"
-    | "office"
-    | "hybrid"
-    | "freelance"
-    | "unemployed"
-    | "student";
+  workStyle?: "remote" | "office" | "hybrid" | "freelance" | "unemployed" | "student";
   workReason?: string;
   sleepSchedule?: "early-bird" | "night-owl" | "irregular" | "normal";
   sleepReason?: string;

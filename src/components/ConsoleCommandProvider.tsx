@@ -1,32 +1,20 @@
 /** eslint-disable no-useless-escape */
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useMemo,
-  useEffect,
-  useCallback,
-} from "react";
-import { useAchievements } from "./AchievementsProvider";
 import { useRouter } from "next/navigation";
-import { Achievement } from "@/types";
-import { achievementsList } from "@/resources";
-import { LOCAL_STORAGE_KEY } from "@/resources";
+import type React from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo } from "react";
+import { achievementsList, LOCAL_STORAGE_KEY } from "@/resources";
+import type { Achievement } from "@/types";
+import { useAchievements } from "./AchievementsProvider";
 
 type ConsoleCommandContextType = {
   registerCommands: () => void;
 };
 
-const ConsoleCommandContext = createContext<
-  ConsoleCommandContextType | undefined
->(undefined);
+const ConsoleCommandContext = createContext<ConsoleCommandContextType | undefined>(undefined);
 
-export const ConsoleCommandProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const ConsoleCommandProvider = ({ children }: { children: React.ReactNode }) => {
   const { achievements, unlockAchievement } = useAchievements();
   const router = useRouter();
 
@@ -39,10 +27,7 @@ export const ConsoleCommandProvider = ({
           "%c🚀 Portfolio Console Commands 🚀",
           "color: #8e44ad; font-size: 1.5em; font-weight: bold;",
         );
-        console.log(
-          "%cAvailable commands:",
-          "color: #3498db; font-size: 1.2em;",
-        );
+        console.log("%cAvailable commands:", "color: #3498db; font-size: 1.2em;");
         console.table([
           ["portfolio.help()", "Display this help message"],
           ["portfolio.list()", "List all achievements"],
@@ -51,10 +36,7 @@ export const ConsoleCommandProvider = ({
           ["portfolio.clear()", "Clear the console"],
           ["portfolio.reset()", "Reset all achievements"],
           ["portfolio.about()", "Learn about this portfolio"],
-          [
-            "portfolio.masterLogin(secretPassword)",
-            "//TODO remove this\npassword: 'password123'",
-          ],
+          ["portfolio.masterLogin(secretPassword)", "//TODO remove this\npassword: 'password123'"],
         ]);
         console.log(
           "%cTip: Try unlocking an achievement using the console! 👀",
@@ -96,36 +78,27 @@ export const ConsoleCommandProvider = ({
       reset: () => {
         if (typeof window !== "undefined") {
           let isAllowedToUnlockSandMandalaAchievement = false;
-          const currentAchievementsLocalStorage =
-            localStorage.getItem(LOCAL_STORAGE_KEY);
+          const currentAchievementsLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
           if (currentAchievementsLocalStorage) {
             if (currentAchievementsLocalStorage === "e1eda57b") {
-              return console.log(
-                "Refresh the page! You have a pending achievement to unlock",
-              );
+              return console.log("Refresh the page! You have a pending achievement to unlock");
             }
             const parsedAchievementsLocalStorage = JSON.parse(
               currentAchievementsLocalStorage,
             ) as Achievement[];
-            const currentUnlockedAchievements =
-              parsedAchievementsLocalStorage.map((obj) => obj.isUnlocked);
+            const currentUnlockedAchievements = parsedAchievementsLocalStorage.map(
+              (obj) => obj.isUnlocked,
+            );
             const sandMandalaAchievement = achievementsList.find(
               (achievement) => achievement.title === "Sand Mandala",
             );
             if (!sandMandalaAchievement)
-              return console.warn(
-                "There seems to be an unlock-able achievement missing",
-              );
+              return console.warn("There seems to be an unlock-able achievement missing");
             const noOfAchievementsRequiredToUnlockSandMandala =
               sandMandalaAchievement.noOfAchievementsRequiredToUnlock;
             if (!noOfAchievementsRequiredToUnlockSandMandala)
-              return console.warn(
-                "Sand Mandala achievement requirement is missing",
-              );
-            if (
-              currentUnlockedAchievements.length >=
-              noOfAchievementsRequiredToUnlockSandMandala
-            ) {
+              return console.warn("Sand Mandala achievement requirement is missing");
+            if (currentUnlockedAchievements.length >= noOfAchievementsRequiredToUnlockSandMandala) {
               console.log(
                 "You who fears nothing, you have unlocked the secret achievement!",
                 "color: #3498db; font-size: 1.2em; font-weight: bold; font-style: italic;",
@@ -143,9 +116,7 @@ export const ConsoleCommandProvider = ({
             "color: #e67e22; font-weight: bold;",
           );
         } else {
-          console.warn(
-            "You don't have any achievements to reset. Refresh the page",
-          );
+          console.warn("You don't have any achievements to reset. Refresh the page");
         }
       },
 
@@ -170,23 +141,17 @@ export const ConsoleCommandProvider = ({
       masterLogin: (secretPassword: string) => {
         const correctPassword = "password123";
         if (secretPassword !== correctPassword) {
-          console.log(
-            "%cIncorrect password. Try again!",
-            "color: #e74c3c; font-weight: bold;",
-          );
+          console.log("%cIncorrect password. Try again!", "color: #e74c3c; font-weight: bold;");
         } else {
-          console.log(
-            "%cMaster login successful! 🎉",
-            "color: #2ecc71; font-weight: bold;",
-          );
+          console.log("%cMaster login successful! 🎉", "color: #2ecc71; font-weight: bold;");
           console.log(
             `
             _  _  _ _ _ _  _                                                       _   _       _          _______       _
            (_)(_)(_|_) | || |                                                     (_) (_)     | |        (_______)     (_)       _
             _  _  _ _| | || |  _ ___  ____  ____  _____ ____     _____ _   _  ____ _   _  ____| |  _      _  _  _ _____ _  ___ _| |_ _____  ____
-           | || || | | | || |_/ ) _ \|    \|    \| ___ |  _ \   (___  ) | | |/ ___) | | |/ ___) |_/ )    | ||_|| | ___ | |/___|_   _) ___ |/ ___)
+           | || || | | | || |_/ ) _ |    |    | ___ |  _    (___  ) | | |/ ___) | | |/ ___) |_/ )    | ||_|| | ___ | |/___|_   _) ___ |/ ___)
            | || || | | | ||  _ ( |_| | | | | | | | ____| | | |   / __/| |_| | |   | |_| ( (___|  _ ( _   | |   | | ____| |___ | | |_| ____| |_
-            \_____/|_|\_)_)_| \_)___/|_|_|_|_|_|_|_____)_| |_|  (_____)____/|_|   |____/ \____)_| \_| )  |_|   |_|_____)_(___/   \__)_____)_(_)
+            _____/|_|_)_)_| _)___/|_|_|_|_|_|_|_____)_| |_|  (_____)____/|_|   |____/ ____)_| _| )  |_|   |_|_____)_(___/   __)_____)_(_)
                                                                                                     |/
             `,
           );
@@ -214,16 +179,11 @@ export const ConsoleCommandProvider = ({
 
   const value = useMemo(() => ({ registerCommands }), [registerCommands]);
 
-  return (
-    <ConsoleCommandContext.Provider value={value}>
-      {children}
-    </ConsoleCommandContext.Provider>
-  );
+  return <ConsoleCommandContext.Provider value={value}>{children}</ConsoleCommandContext.Provider>;
 };
 
 export const useConsole = () => {
   const context = useContext(ConsoleCommandContext);
-  if (!context)
-    throw new Error("useConsole must be used within ConsoleCommandProvider");
+  if (!context) throw new Error("useConsole must be used within ConsoleCommandProvider");
   return context;
 };

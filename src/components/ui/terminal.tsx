@@ -1,11 +1,13 @@
 "use client";
 import "./terminal.css";
 import "@/components/HeaderDock.css";
+import { Dialog } from "@once-ui-system/core";
 import { gsap } from "gsap";
+import { type MotionProps, motion, useInView } from "motion/react";
 import {
   Children,
   createContext,
-  RefObject,
+  type RefObject,
   useCallback,
   useContext,
   useEffect,
@@ -14,14 +16,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion, MotionProps, useInView } from "motion/react";
-
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "../ThemeToggle";
-import { LocaleToggle } from "../LocaleToggle";
-import { useUserInfo } from "../UserInfoProvider";
-import { Dialog } from "@once-ui-system/core";
 import { terminalCommand } from "@/resources";
+import { LocaleToggle } from "../LocaleToggle";
+import { ThemeToggle } from "../ThemeToggle";
+import { useUserInfo } from "../UserInfoProvider";
 
 interface SequenceContextValue {
   completeItem: (index: number) => void;
@@ -81,10 +80,7 @@ export const AnimatedSpan = ({
       initial={{ opacity: 0, y: -5 }}
       animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: -5 }}
       transition={{ duration: 0.3, delay: sequence ? 0 : delay / 1000 }}
-      className={cn(
-        "animated-span grid text-sm font-normal tracking-tight",
-        className,
-      )}
+      className={cn("animated-span grid text-sm font-normal tracking-tight", className)}
       onAnimationComplete={() => {
         if (!sequence) return;
         if (itemIndex === null) return;
@@ -193,10 +189,7 @@ export const TypingAnimation = ({
   return (
     <MotionComponent
       ref={elementRef}
-      className={cn(
-        "animated-span text-sm font-normal tracking-tight",
-        className,
-      )}
+      className={cn("animated-span text-sm font-normal tracking-tight", className)}
       {...props}
     >
       {displayedText}
@@ -229,11 +222,7 @@ export const Terminal = ({
     once: true,
   });
 
-  const {
-    isTerminalOpen,
-    setIsTerminalOpen,
-    setIsStartInitializedStateAndCookie,
-  } = useUserInfo();
+  const { isTerminalOpen, setIsTerminalOpen, setIsStartInitializedStateAndCookie } = useUserInfo();
   const [activeIndex, setActiveIndex] = useState(0);
   const sequenceHasStarted = sequence ? !startOnView || isInView : false;
 
@@ -241,9 +230,7 @@ export const Terminal = ({
     if (!sequence) return null;
     return {
       completeItem: (index: number) => {
-        setActiveIndex((current) =>
-          index === current ? current + 1 : current,
-        );
+        setActiveIndex((current) => (index === current ? current + 1 : current));
         //NOTE: Active Index 5 is "Just before 'Added Wallpaper'"
         if (activeIndex === 5 && containerRef.current) {
           containerRef.current.classList.add("bg-fade-in");
@@ -302,8 +289,7 @@ export const Terminal = ({
       if (enableDialog) setIsTerminalOpen(!isTerminalOpen);
       if (
         containerRef.current &&
-        containerRef.current.style.transform ===
-          "translate(0px, -500px) scale(0, 0)"
+        containerRef.current.style.transform === "translate(0px, -500px) scale(0, 0)"
       ) {
         gsap.fromTo(
           containerRef.current,
@@ -344,10 +330,7 @@ export const Terminal = ({
   const content = (
     <div
       ref={containerRef}
-      className={cn(
-        `${enableDialog ? "bg-fade-in" : ""} terminal-container`,
-        className,
-      )}
+      className={cn(`${enableDialog ? "bg-fade-in" : ""} terminal-container`, className)}
     >
       <div className="terminal-header">
         <div className="terminal-dot-group">
@@ -405,9 +388,5 @@ export const Terminal = ({
 
   if (!sequence) return contentFormat;
 
-  return (
-    <SequenceContext.Provider value={contextValue}>
-      {contentFormat}
-    </SequenceContext.Provider>
-  );
+  return <SequenceContext.Provider value={contextValue}>{contentFormat}</SequenceContext.Provider>;
 };

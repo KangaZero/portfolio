@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, Column, Media, Row, Avatar, Text } from "@once-ui-system/core";
-import { formatDate } from "@/utils/formatDate";
+import { Avatar, Card, Column, Media, Row, Text } from "@once-ui-system/core";
 import { person } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
 import type { CustomMetadata } from "@/utils/utils";
 
 interface PostProps {
@@ -38,18 +38,12 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
           cursor="interactive"
           radius="l"
           src={post.metadata.image}
-          alt={"Thumbnail of " + post.metadata.title}
+          alt={`Thumbnail of ${post.metadata.title}`}
           aspectRatio="16 / 9"
         />
       )}
       <Row fillWidth>
-        <Column
-          maxWidth={28}
-          paddingY="24"
-          paddingX="l"
-          gap="20"
-          vertical="center"
-        >
+        <Column maxWidth={28} paddingY="24" paddingX="l" gap="20" vertical="center">
           <Row gap="24" vertical="center">
             <Row vertical="center" gap="16">
               <Avatar src={person.avatar} size="s" />

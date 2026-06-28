@@ -1,21 +1,21 @@
 h2 {
-    text-align: start;
-    transition: height 0.3s ease 0.3s ease;
-    opacity: 1;
+  text-align: start;
+  transition: height 0.3s ease 0.3s ease;
+  opacity: 1;
 }
 
 .fade-in {
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-        opacity 0.4s,
-        transform 0.4s;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
 }
 
 .fade-out {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.4s,
-        transform 0.4s;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
 }

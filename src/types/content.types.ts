@@ -1,7 +1,6 @@
-import { WMOCodeDescriptions } from "@/resources";
-import { IconName } from "@/resources/icons";
-
-import { zones } from "tzdata";
+import type { zones } from "tzdata";
+import type { WMOCodeDescriptions } from "@/resources";
+import type { IconName } from "@/resources/icons";
 
 /**
  * IANA time zone string (e.g., 'Asia/Calcutta', 'Europe/Vienna').
@@ -149,12 +148,7 @@ export interface Home extends BasePageConfig {
    */
   image: `/images/${string}` | string;
   /** The headline of the home page */
-  headline: (
-    text1: string,
-    text2: string,
-    text3: string,
-    text4: string,
-  ) => React.ReactNode;
+  headline: (text1: string, text2: string, text3: string, text4: string) => React.ReactNode;
   /** Featured badge, which appears above the headline */
   featured: {
     display: boolean;
@@ -341,9 +335,7 @@ export type AchievementTitle =
   | "Night Owl"
   | "Speedophile";
 
-export type Achievement<
-  TAchievementTitle extends AchievementTitle = AchievementTitle,
-> =
+export type Achievement<TAchievementTitle extends AchievementTitle = AchievementTitle> =
   | {
       id: number;
       title: AchievementTitle;
@@ -389,9 +381,7 @@ export type TerminalCommandType = {
     inputAreaElement: HTMLElement,
     argument: string | "-y",
   ) => void;
-  start: (
-    setIsStartInitializedStateAndCookie: (state: boolean) => void,
-  ) => void;
+  start: (setIsStartInitializedStateAndCookie: (state: boolean) => void) => void;
   help: (inputAreaElement: HTMLElement) => void;
   history: (
     inpuAreaElement: HTMLElement,
@@ -407,10 +397,7 @@ export type TerminalCommandType = {
     inputAreaElement: HTMLElement,
     window: Window & typeof globalThis,
   ) => void;
-  n: (
-    previousMessage: TerminalCommandTypeKeyType | string,
-    inputAreaElement: HTMLElement,
-  ) => void;
+  n: (previousMessage: TerminalCommandTypeKeyType | string, inputAreaElement: HTMLElement) => void;
 };
 
 export type TerminalCommandTypeKeyType = keyof TerminalCommandType;

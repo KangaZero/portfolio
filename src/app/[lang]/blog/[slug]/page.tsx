@@ -1,29 +1,27 @@
-import { notFound } from "next/navigation";
-import { CustomMDX, ScrollToHash } from "@/components";
 import {
-  Meta,
-  Schema,
+  Avatar,
   Column,
   Heading,
   HeadingNav,
   Icon,
-  Row,
-  Text,
-  SmartLink,
-  Avatar,
-  Media,
   Line,
+  Media,
+  Meta,
+  Row,
+  Schema,
+  SmartLink,
+  Text,
 } from "@once-ui-system/core";
-import { baseURL, about, blog, person } from "@/resources";
-import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/utils";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { CustomMDX, ScrollToHash } from "@/components";
 import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
+import { about, baseURL, blog, person } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { getPosts } from "@/utils/utils";
 
-export async function generateStaticParams(): Promise<
-  { lang: string; slug: string }[]
-> {
+export async function generateStaticParams(): Promise<{ lang: string; slug: string }[]> {
   const languages = ["en", "ja"];
   const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);
   return languages.flatMap((lang) =>
@@ -39,9 +37,7 @@ export async function generateMetadata({
 }: {
   params: { lang: string; slug: string | string[] };
 }): Promise<Metadata> {
-  const slugPath = Array.isArray(params.slug)
-    ? params.slug.join("/")
-    : params.slug || "";
+  const slugPath = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || "";
 
   const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);
   const post = posts.find((post) => post.slug === slugPath);
@@ -52,8 +48,7 @@ export async function generateMetadata({
     title: post.metadata.title,
     description: post.metadata.summary,
     baseURL: baseURL,
-    image:
-      post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
+    image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
     path: `${blog.path}/${post.slug}`,
   });
 }
@@ -63,9 +58,7 @@ export default async function Blog({
 }: {
   params: { lang: string; slug: string | string[] };
 }) {
-  const slugPath = Array.isArray(params.slug)
-    ? params.slug.join("/")
-    : params.slug || "";
+  const slugPath = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || "";
 
   const post = getPosts(["src", "app", "[lang]", "blog", "posts"]).find(
     (post) => post.slug === slugPath,
@@ -84,13 +77,7 @@ export default async function Blog({
     <Row fillWidth>
       <Row maxWidth={12} m={{ hide: true }} />
       <Row fillWidth horizontal="center">
-        <Column
-          as="section"
-          maxWidth="m"
-          horizontal="center"
-          gap="l"
-          paddingTop="24"
-        >
+        <Column as="section" maxWidth="m" horizontal="center" gap="l" paddingTop="24">
           <Schema
             as="blogPosting"
             baseURL={baseURL}
@@ -113,13 +100,8 @@ export default async function Blog({
             <SmartLink href="/blog">
               <Text variant="label-strong-m">Blog</Text>
             </SmartLink>
-            <Text
-              variant="body-default-xs"
-              onBackground="neutral-weak"
-              marginBottom="12"
-            >
-              {post.metadata.publishedAt &&
-                formatDate(post.metadata.publishedAt)}
+            <Text variant="body-default-xs" onBackground="neutral-weak" marginBottom="12">
+              {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
             </Text>
             <Heading variant="display-strong-m">{post.metadata.title}</Heading>
             {post.metadata.subtitle && (
@@ -158,23 +140,14 @@ export default async function Blog({
             <CustomMDX source={post.content} />
           </Column>
 
-          <ShareSection
-            title={post.metadata.title}
-            url={`${baseURL}${blog.path}/${post.slug}`}
-          />
+          <ShareSection title={post.metadata.title} url={`${baseURL}${blog.path}/${post.slug}`} />
 
           <Column fillWidth gap="40" horizontal="center" marginTop="40">
             <Line maxWidth="40" />
             <Heading as="h2" variant="heading-strong-xl" marginBottom="24">
               Recent posts
             </Heading>
-            <Posts
-              exclude={[post.slug]}
-              range={[1, 2]}
-              columns="2"
-              thumbnail
-              direction="column"
-            />
+            <Posts exclude={[post.slug]} range={[1, 2]} columns="2" thumbnail direction="column" />
           </Column>
           <ScrollToHash />
         </Column>

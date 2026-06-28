@@ -1,6 +1,6 @@
 "use client";
 
-import { Row, Text, Button, useToast } from "@once-ui-system/core";
+import { Button, Row, Text, useToast } from "@once-ui-system/core";
 import { socialSharing } from "@/resources";
 
 interface ShareSectionProps {
@@ -27,14 +27,14 @@ const socialPlatforms: Record<string, SocialPlatform> = {
     name: "linkedin",
     icon: "linkedin",
     label: "LinkedIn",
-    generateUrl: (title, url) =>
+    generateUrl: (_title, url) =>
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
   },
   facebook: {
     name: "facebook",
     icon: "facebook",
     label: "Facebook",
-    generateUrl: (title, url) =>
+    generateUrl: (_title, url) =>
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
   },
   pinterest: {

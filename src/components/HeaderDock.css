@@ -1,53 +1,51 @@
 .menuItems {
-    transition: all 0.3s ease;
-    overflow: auto;
-    scrollbar-width: none;
-    display: flex;
-    align-items: center;
-    max-width: 37dvw;
-    opacity: 1;
+  transition: all 0.3s ease;
+  overflow: auto;
+  scrollbar-width: none;
+  display: flex;
+  align-items: center;
+  max-width: 37dvw;
+  opacity: 1;
 }
 
 .menuIconManual:hover {
-    transform: scale(1.1);
-    transform: translateY(5px);
+  transform: scale(1.1) translateY(5px);
 }
 
 .menuIconHovered {
-    transform: scale(1.1);
-    transform: translateY(5px);
+  transform: scale(1.1) translateY(5px);
 }
 
 .adjacentMenuIconHovered {
-    transform: scale(0.9);
-    opacity: 0.8;
+  transform: scale(0.9);
+  opacity: 0.8;
 }
 
 .menuVisible {
-    opacity: 1;
-    transform: translateX(0px);
-    pointer-events: auto;
+  opacity: 1;
+  transform: translateX(0px);
+  pointer-events: auto;
 }
 .menuHidden {
-    opacity: 0;
-    width: 0;
-    transform: translateX(-20px);
-    pointer-events: none;
+  opacity: 0;
+  width: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
 }
 @media (max-width: 599px) {
-    .hideElementOnMobile {
-        display: none;
-    }
+  .hideElementOnMobile {
+    display: none;
+  }
 }
 
 .chevronRotate {
-    animation: chevronRotate 0.2s linear;
+  animation: chevronRotate 0.2s linear;
 }
 @keyframes chevronRotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(180deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
 }

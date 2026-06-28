@@ -23,14 +23,12 @@ export function CustomTransition({
   // const endPosition = isHorizontal ? `${distance}px 0` : `0 100%`;
 
   return (
-    <>
-      <ViewTransition name={name}>
-        <div className="panel-wrapper">
-          <div className="panel left"></div>
-          <div className="panel right"></div>
-          {children}
-        </div>
-      </ViewTransition>
-    </>
+    <ViewTransition name={name}>
+      <div className="panel-wrapper">
+        <div className="panel left"></div>
+        <div className="panel right"></div>
+        {children}
+      </div>
+    </ViewTransition>
   );
 }

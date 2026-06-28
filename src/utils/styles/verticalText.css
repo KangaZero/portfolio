@@ -1,7 +1,7 @@
 .vertical-text {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    text-align: start;
-    font-family: var(--font-heading-ja);
-    text-wrap: pretty;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-align: start;
+  font-family: var(--font-heading-ja);
+  text-wrap: pretty;
 }

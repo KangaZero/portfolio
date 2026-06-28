@@ -1,46 +1,33 @@
 "use client";
-import {
-  AnimatedSpan,
-  Terminal,
-  TypingAnimation,
-} from "@/components/ui/terminal";
+import { AnimatedSpan, Terminal, TypingAnimation } from "@/components/ui/terminal";
 import "@/components/ui/terminal.css";
 import { Icon, IconButton, Line } from "@once-ui-system/core";
-import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { terminalCommand } from "@/resources";
-import { TerminalCommandTypeKeyType } from "@/types";
+import { useEffect, useRef, useState } from "react";
 import { useUserInfo } from "@/components/UserInfoProvider";
+import { terminalCommand } from "@/resources";
+import type { TerminalCommandTypeKeyType } from "@/types";
 
 const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
   const pathname = usePathname();
   const terminalContainerRef = useRef<{ minimizeTerminal: () => void }>(null);
-  const {
-    typeSafeUserInfo,
-    isStartInitialized,
-    setIsStartInitializedStateAndCookie,
-  } = useUserInfo();
+  const { typeSafeUserInfo, isStartInitialized, setIsStartInitializedStateAndCookie } =
+    useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
-  const [allUserCommands, setAllUserCommands] = useState<
-    (string | TerminalCommandTypeKeyType)[]
-  >([]);
+  const [allUserCommands, setAllUserCommands] = useState<(string | TerminalCommandTypeKeyType)[]>(
+    [],
+  );
   const [terminalInput, setTerminalInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [caretPos, setCaretPos] = useState(0);
 
   const handleSendTerminalCommand = () => {
-    if (
-      terminalInput.trim() === "" ||
-      !terminalInputRef.current ||
-      typeof document === "undefined"
-    )
+    if (terminalInput.trim() === "" || !terminalInputRef.current || typeof document === "undefined")
       return;
 
     const allAnimatedSpanElements = document.querySelectorAll(".animated-span");
-    const terminalInputDisplayAreaElement = document.getElementById(
-      "terminal-input-display-area",
-    );
+    const terminalInputDisplayAreaElement = document.getElementById("terminal-input-display-area");
     if (!terminalInputDisplayAreaElement || !allAnimatedSpanElements) return;
     const normalizedTerminalInputCommand = terminalInput
       .toLowerCase()
@@ -84,25 +71,14 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
         }
         break;
       case "clear":
-        terminalCommand.clear(
-          elementsToRemove,
-          terminalInputDisplayAreaElement,
-        );
+        terminalCommand.clear(elementsToRemove, terminalInputDisplayAreaElement);
         break;
       case "echo":
-        terminalCommand.echo(
-          terminalInputArguments,
-          terminalInputDisplayAreaElement,
-        );
+        terminalCommand.echo(terminalInputArguments, terminalInputDisplayAreaElement);
         break;
       case "exit":
-        if (!terminalContainerRef.current && typeof window === "undefined")
-          return;
-        terminalCommand.exit(
-          window,
-          terminalInputDisplayAreaElement,
-          terminalInputArguments,
-        );
+        if (!terminalContainerRef.current && typeof window === "undefined") return;
+        terminalCommand.exit(window, terminalInputDisplayAreaElement, terminalInputArguments);
         break;
       case "fastfetch":
         terminalCommand.fastfetch(terminalInputDisplayAreaElement);
@@ -140,12 +116,10 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
       </span>
       <span className="terminal-input-wrapper animated-span">
         <div
-          tabIndex={0}
           onPointerDown={() => {
             terminalInputRef.current?.focus();
           }}
           onFocus={() => terminalInputRef.current?.focus()}
-          role="input"
           className="terminal-input-container"
         >
           <input
@@ -176,10 +150,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
             }}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                setCaretPos(
-                  terminalInputRef.current?.selectionStart ??
-                    terminalInput.length,
-                );
+                setCaretPos(terminalInputRef.current?.selectionStart ?? terminalInput.length);
               }
               if (e.key === "ArrowRight" && e.ctrlKey) {
                 e.preventDefault();
@@ -192,10 +163,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
                 const newCaretPos = caretPos + firstWord.length;
                 setCaretPos(newCaretPos);
                 setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(
-                    newCaretPos,
-                    newCaretPos,
-                  );
+                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
                 }, 0);
               }
               if (e.key === "ArrowLeft" && e.ctrlKey) {
@@ -209,10 +177,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
                 const newCaretPos = caretPos - lastWord.length;
                 setCaretPos(newCaretPos);
                 setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(
-                    newCaretPos,
-                    newCaretPos,
-                  );
+                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
                 }, 0);
               }
 
@@ -227,11 +192,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
               <Icon name={typeSafeUserInfo.platform} size="s" />
               <Line vert height="32" marginX="4" />
               <Icon
-                name={
-                  typeSafeUserInfo.bluetoothSupported
-                    ? "bluetooth"
-                    : "bluetoothDisabled"
-                }
+                name={typeSafeUserInfo.bluetoothSupported ? "bluetooth" : "bluetoothDisabled"}
                 size="s"
               />
               <Line vert height="32" marginX="4" />
@@ -266,13 +227,9 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
     </Terminal>
   ) : (
     <Terminal ref={terminalContainerRef} enableDialog={enableDialog}>
-      <TypingAnimation>
-        &gt; bunx samuel-yong/portfolio@latest init
-      </TypingAnimation>
+      <TypingAnimation>&gt; bunx samuel-yong/portfolio@latest init</TypingAnimation>
 
-      <AnimatedSpan className="text-green-500">
-        ✔ Preflight checks.
-      </AnimatedSpan>
+      <AnimatedSpan className="text-green-500">✔ Preflight checks.</AnimatedSpan>
 
       <AnimatedSpan className="text-green-500">✔ Added content</AnimatedSpan>
 
@@ -280,9 +237,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
 
       <AnimatedSpan className="text-green-500">✔ Added scripts</AnimatedSpan>
 
-      <AnimatedSpan className="text-green-500">
-        ✔ Added dependencies
-      </AnimatedSpan>
+      <AnimatedSpan className="text-green-500">✔ Added dependencies</AnimatedSpan>
 
       <AnimatedSpan className="text-green-500">✔ Added wallpaper</AnimatedSpan>
 
@@ -291,20 +246,16 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
         <span className="pl-2">- portfolio/me.exe</span>
       </AnimatedSpan>
 
-      <AnimatedSpan className="text-muted">
-        Success! Project initialization completed.
-      </AnimatedSpan>
+      <AnimatedSpan className="text-muted">Success! Project initialization completed.</AnimatedSpan>
 
       <AnimatedSpan className="text-muted">exit code: 0</AnimatedSpan>
       <AnimatedSpan id="terminal-input-display-area">{""}</AnimatedSpan>
       <AnimatedSpan className="terminal-input-wrapper">
         <div
-          tabIndex={0}
           onPointerDown={() => {
             terminalInputRef.current?.focus();
           }}
           onFocus={() => terminalInputRef.current?.focus()}
-          role="input"
           className="terminal-input-container"
         >
           <input
@@ -335,10 +286,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
             }}
             onKeyDown={(e) => {
               if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                setCaretPos(
-                  terminalInputRef.current?.selectionStart ??
-                    terminalInput.length,
-                );
+                setCaretPos(terminalInputRef.current?.selectionStart ?? terminalInput.length);
               }
               if (e.key === "ArrowRight" && e.ctrlKey) {
                 e.preventDefault();
@@ -351,10 +299,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
                 const newCaretPos = caretPos + firstWord.length;
                 setCaretPos(newCaretPos);
                 setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(
-                    newCaretPos,
-                    newCaretPos,
-                  );
+                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
                 }, 0);
               }
               if (e.key === "ArrowLeft" && e.ctrlKey) {
@@ -368,10 +313,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
                 const newCaretPos = caretPos - lastWord.length;
                 setCaretPos(newCaretPos);
                 setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(
-                    newCaretPos,
-                    newCaretPos,
-                  );
+                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
                 }, 0);
               }
 
@@ -386,11 +328,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
               <Icon name={typeSafeUserInfo.platform} size="s" />
               <Line vert height="32" marginX="4" />
               <Icon
-                name={
-                  typeSafeUserInfo.bluetoothSupported
-                    ? "bluetooth"
-                    : "bluetoothDisabled"
-                }
+                name={typeSafeUserInfo.bluetoothSupported ? "bluetooth" : "bluetoothDisabled"}
                 size="s"
               />
               <Line vert height="32" marginX="4" />

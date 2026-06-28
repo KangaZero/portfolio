@@ -1,5 +1,6 @@
-import styles from "./layout.module.scss";
 import { cacheLife } from "next/cache";
+import styles from "./layout.module.scss";
+
 const LayoutBackgroundMaple = async () => {
   "use cache";
   cacheLife("days");

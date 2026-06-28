@@ -4,16 +4,16 @@
  */
 
 import type { ClientInfo } from "@/types";
-import { getInitialBehaviorData, detectInstalledApps } from "./getUserBehavior";
 import {
-  detectSocialLogins,
   detectCryptoWallets,
+  detectSocialLogins,
   detectVPN,
-  generateFingerprintId,
   generateCrossBrowserId,
-  getInitialAdvancedBehavior,
+  generateFingerprintId,
   generateUserProfile,
+  getInitialAdvancedBehavior,
 } from "./getUserAdvancedDetails";
+import { detectInstalledApps, getInitialBehaviorData } from "./getUserBehavior";
 import { getVisitCountCookieFromClient } from "./getVisitCountCookieFromClient";
 // import { getWasmFingerprint } from "./wasmFingerprint";
 // import { getWebGPUFingerprint } from "./webgpuFingerprint";
@@ -59,8 +59,7 @@ export async function collectClientInfo(): Promise<ClientInfo> {
     // isChromeAIAvailable(),
   ]);
 
-  const deviceMem =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory || null;
+  const deviceMem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory || null;
 
   const result: ClientInfo = {
     visitCount: getVisitCountCookieFromClient() || 1,
@@ -112,8 +111,7 @@ export async function collectClientInfo(): Promise<ClientInfo> {
     doNotTrack: navigator.doNotTrack === "1",
     globalPrivacyControl: getGlobalPrivacyControl(),
     pdfViewerEnabled:
-      (navigator as Navigator & { pdfViewerEnabled?: boolean })
-        .pdfViewerEnabled ?? false,
+      (navigator as Navigator & { pdfViewerEnabled?: boolean }).pdfViewerEnabled ?? false,
 
     // Fingerprints
     canvasFingerprint,
@@ -201,11 +199,8 @@ export async function collectClientInfo(): Promise<ClientInfo> {
     errorFingerprint: getErrorFingerprint(),
 
     // Navigator/Window Props Count
-    navigatorPropsCount: Object.keys(
-      Object.getOwnPropertyDescriptors(navigator),
-    ).length,
-    windowPropsCount: Object.keys(Object.getOwnPropertyDescriptors(window))
-      .length,
+    navigatorPropsCount: Object.keys(Object.getOwnPropertyDescriptors(navigator)).length,
+    windowPropsCount: Object.keys(Object.getOwnPropertyDescriptors(window)).length,
 
     // Behavioral tracking (starts with empty data, updates in real-time)
     behavior: getInitialBehaviorData(),
@@ -338,8 +333,7 @@ function getWebGLInfo(): {
 } {
   try {
     const canvas = document.createElement("canvas");
-    const gl =
-      canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 
     if (gl) {
       const glCtx = gl as WebGLRenderingContext;
@@ -360,12 +354,8 @@ function getWebGLInfo(): {
       ].join("|");
 
       return {
-        vendor: debugInfo
-          ? glCtx.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)
-          : null,
-        renderer: debugInfo
-          ? glCtx.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-          : null,
+        vendor: debugInfo ? glCtx.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : null,
+        renderer: debugInfo ? glCtx.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : null,
         version: glCtx.getParameter(glCtx.VERSION),
         extensionsCount: extensions.length,
         fingerprint: hashString(params),
@@ -427,8 +417,7 @@ async function getAudioFingerprint(): Promise<string> {
   try {
     const AudioContext =
       window.AudioContext ||
-      (window as Window & { webkitAudioContext?: typeof window.AudioContext })
-        .webkitAudioContext;
+      (window as Window & { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext;
     if (!AudioContext) return "unavailable";
 
     const context = new AudioContext();
@@ -582,9 +571,7 @@ async function getSpeechVoices(): Promise<{ count: number; hash: string }> {
       voices = speechSynthesis.getVoices();
     }
 
-    const voiceString = voices
-      .map((v) => `${v.name}|${v.lang}|${v.localService}`)
-      .join(",");
+    const voiceString = voices.map((v) => `${v.name}|${v.lang}|${v.localService}`).join(",");
     return {
       count: voices.length,
       hash: hashString(voiceString),
@@ -699,9 +686,7 @@ async function getClientHints(): Promise<{
       model: data.model || null,
       platformVersion: data.platformVersion || null,
       fullVersionList:
-        data.fullVersionList
-          ?.map((v) => `${v.brand} ${v.version}`)
-          .join(", ") || null,
+        data.fullVersionList?.map((v) => `${v.brand} ${v.version}`).join(", ") || null,
     };
   } catch {
     return null;
@@ -780,8 +765,7 @@ async function detectAdBlocker(): Promise<boolean | null> {
     // Create a bait element that ad blockers typically block
     const bait = document.createElement("div");
     bait.className = "ad ads adsbox ad-placement carbon-ads";
-    bait.style.cssText =
-      "position:absolute;top:-10px;left:-10px;width:1px;height:1px;";
+    bait.style.cssText = "position:absolute;top:-10px;left:-10px;width:1px;height:1px;";
     bait.innerHTML = "&nbsp;";
     document.body.appendChild(bait);
 
@@ -799,10 +783,10 @@ async function detectAdBlocker(): Promise<boolean | null> {
 
     // Also try to fetch a known ad script
     try {
-      await fetch(
-        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
-        { mode: "no-cors", cache: "no-store" },
-      );
+      await fetch("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", {
+        mode: "no-cors",
+        cache: "no-store",
+      });
       // If we get here, ad scripts aren't blocked
       return blocked;
     } catch {
@@ -888,8 +872,7 @@ function getCSSPreferences() {
 
   let colorScheme = "no-preference";
   if (getMediaQuery("(prefers-color-scheme: dark)")) colorScheme = "dark";
-  else if (getMediaQuery("(prefers-color-scheme: light)"))
-    colorScheme = "light";
+  else if (getMediaQuery("(prefers-color-scheme: light)")) colorScheme = "light";
 
   let contrast = "no-preference";
   if (getMediaQuery("(prefers-contrast: more)")) contrast = "more";
@@ -903,9 +886,7 @@ function getCSSPreferences() {
   return {
     prefersColorScheme: colorScheme,
     prefersReducedMotion: getMediaQuery("(prefers-reduced-motion: reduce)"),
-    prefersReducedTransparency: getMediaQuery(
-      "(prefers-reduced-transparency: reduce)",
-    ),
+    prefersReducedTransparency: getMediaQuery("(prefers-reduced-transparency: reduce)"),
     prefersContrast: contrast,
     forcedColors: getMediaQuery("(forced-colors: active)"),
     colorGamut,
@@ -1050,10 +1031,7 @@ function detectHeadless(): boolean {
   if (navigator.userAgent.includes("HeadlessChrome")) return true;
 
   // Check for missing chrome object in Chrome
-  if (
-    navigator.userAgent.includes("Chrome") &&
-    !(window as Window & { chrome?: unknown }).chrome
-  ) {
+  if (navigator.userAgent.includes("Chrome") && !(window as Window & { chrome?: unknown }).chrome) {
     return true;
   }
 
@@ -1071,9 +1049,7 @@ function detectVirtualMachine(): boolean | null {
     if (gl) {
       const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
       if (debugInfo) {
-        const renderer = gl
-          .getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-          .toLowerCase();
+        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).toLowerCase();
         const vmIndicators = [
           "vmware",
           "virtualbox",
@@ -1157,16 +1133,10 @@ function getCodecSupport() {
   if ("requestMediaKeySystemAccess" in navigator) {
     // We can't actually test without async, so just check if API exists
     drmSupported.widevine = true; // Chrome, Firefox, Edge
-    if (
-      navigator.userAgent.includes("Safari") &&
-      !navigator.userAgent.includes("Chrome")
-    ) {
+    if (navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome")) {
       drmSupported.fairplay = true;
     }
-    if (
-      navigator.userAgent.includes("Edge") ||
-      navigator.userAgent.includes("Windows")
-    ) {
+    if (navigator.userAgent.includes("Edge") || navigator.userAgent.includes("Windows")) {
       drmSupported.playready = true;
     }
   }
@@ -1189,7 +1159,7 @@ function getMathFingerprint(): string {
     Math.asin(0.5),
     Math.atan(1),
     Math.atan2(1, 1),
-    Math.pow(Math.PI, -100),
+    Math.PI ** -100,
     Math.sinh(1),
     Math.cosh(1),
     Math.tanh(1),
@@ -1423,6 +1393,7 @@ function getErrorFingerprint(): string {
   }
 
   try {
+    // biome-ignore lint/security/noGlobalEval: intentional — the engine-specific error message from this invalid eval is used as a fingerprint signal
     eval("function(){");
   } catch (e) {
     errors.push((e as Error).message);

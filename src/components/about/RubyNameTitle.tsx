@@ -7,20 +7,16 @@ const RubyNameTitle = () => {
   const { locale } = useLocale();
 
   return (
-    <>
-      <h2 className="rubyNameTitle">
-        {person.rubyName.map((name, index) => (
-          <ruby key={index}>
-            {name.romaji}
-            <rp>(</rp>
-            <rt className={locale === "en" ? "fade-out" : "fade-in"}>
-              {name.furigana}
-            </rt>
-            <rp>)</rp>{" "}
-          </ruby>
-        ))}
-      </h2>
-    </>
+    <h2 className="rubyNameTitle">
+      {person.rubyName.map((name, index) => (
+        <ruby key={index}>
+          {name.romaji}
+          <rp>(</rp>
+          <rt className={locale === "en" ? "fade-out" : "fade-in"}>{name.furigana}</rt>
+          <rp>)</rp>{" "}
+        </ruby>
+      ))}
+    </h2>
   );
 };
 

@@ -1,9 +1,9 @@
 "use client";
 
-import styles from "./ThemeToggle.module.scss";
-import React, { useEffect, useState } from "react";
 import { Icon, ToggleButton, useTheme } from "@once-ui-system/core";
+import React, { useEffect, useState } from "react";
 import { useAchievements } from "./AchievementsProvider";
+import styles from "./ThemeToggle.module.scss";
 import { AnimatedTooltip } from "./ui/AnimatedTooltip";
 
 export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
@@ -18,14 +18,8 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
     setMounted(true);
     const updateCurrentTheme = () => {
       setCurrentTheme(
-        (document.documentElement.getAttribute("data-theme") as
-          | "light"
-          | "dark"
-          | null) ||
-          (window.localStorage.getItem("data-theme") as
-            | "light"
-            | "dark"
-            | null) ||
+        (document.documentElement.getAttribute("data-theme") as "light" | "dark" | null) ||
+          (window.localStorage.getItem("data-theme") as "light" | "dark" | null) ||
           "light",
       );
     };
@@ -40,9 +34,7 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
 
   useEffect(() => {
     setCurrentTheme(
-      (document.documentElement.getAttribute("data-theme") as
-        | "light"
-        | "dark") || "light",
+      (document.documentElement.getAttribute("data-theme") as "light" | "dark") || "light",
     );
     toggleIconRef.current?.classList.remove(styles.iconSlide);
     // Trigger reflow to restart the animation
@@ -67,8 +59,7 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
           setTheme(nextTheme);
           unlockAchievement("Eos");
         }).ready;
-        const { top, left, width, height } =
-          toggleThemeButtonRef.current.getBoundingClientRect();
+        const { top, left, width, height } = toggleThemeButtonRef.current.getBoundingClientRect();
         const x = left + width / 2;
         const y = top + height / 2;
         const maxRadius = Math.hypot(
@@ -77,10 +68,7 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
         );
         document.documentElement.animate(
           {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${maxRadius}px at ${x}px ${y}px)`,
-            ],
+            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${maxRadius}px at ${x}px ${y}px)`],
           },
           {
             duration: 600,
@@ -91,11 +79,7 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
       }}
       aria-label={`Switch to ${nextTheme} mode`}
     >
-      <AnimatedTooltip
-        title="Theme"
-        description={`Switch to ${nextTheme} mode`}
-        direction="bottom"
-      >
+      <AnimatedTooltip title="Theme" description={`Switch to ${nextTheme} mode`} direction="bottom">
         <Icon
           ref={toggleIconRef}
           name={icon}

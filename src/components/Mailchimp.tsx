@@ -1,21 +1,23 @@
 "use client";
 
-import { mailchimp, newsletter } from "@/resources";
 import {
+  Background,
   Button,
+  Column,
   Heading,
   Input,
-  Text,
-  Background,
-  Column,
+  type opacity,
   Row,
+  type SpacingToken,
+  Text,
 } from "@once-ui-system/core";
-import { opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
+import { mailchimp, newsletter } from "@/resources";
 
-function debounce<
-  T extends (...args: React.ChangeEvent<HTMLInputElement>[]) => void,
->(func: T, delay: number): T {
+function debounce<T extends (...args: React.ChangeEvent<HTMLInputElement>[]) => void>(
+  func: T,
+  delay: number,
+): T {
   let timeout: ReturnType<typeof setTimeout>;
   return ((...args: Parameters<T>) => {
     clearTimeout(timeout);
@@ -23,9 +25,7 @@ function debounce<
   }) as T;
 }
 
-export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
-  ...flex
-}) => {
+export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...flex }) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
@@ -120,12 +120,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         <Heading marginBottom="s" variant="display-strong-xs">
           {newsletter.title}
         </Heading>
-        <Text
-          wrap="balance"
-          marginBottom="l"
-          variant="body-default-l"
-          onBackground="neutral-weak"
-        >
+        <Text wrap="balance" marginBottom="l" variant="body-default-l" onBackground="neutral-weak">
           {newsletter.description}
         </Text>
       </Column>
@@ -175,21 +170,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
             />
           </div>
           <div id="mce-responses" className="clearfalse">
-            <div
-              className="response"
-              id="mce-error-response"
-              style={{ display: "none" }}
-            ></div>
-            <div
-              className="response"
-              id="mce-success-response"
-              style={{ display: "none" }}
-            ></div>
+            <div className="response" id="mce-error-response" style={{ display: "none" }}></div>
+            <div className="response" id="mce-success-response" style={{ display: "none" }}></div>
           </div>
-          <div
-            aria-hidden="true"
-            style={{ position: "absolute", left: "-5000px" }}
-          >
+          <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
             <input
               type="text"
               readOnly
@@ -200,12 +184,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           </div>
           <div className="clear">
             <Row height="48" vertical="center">
-              <Button
-                id="mc-embedded-subscribe"
-                value="Subscribe"
-                size="m"
-                fillWidth
-              >
+              <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
                 Subscribe
               </Button>
             </Row>

@@ -1,9 +1,9 @@
 "use client";
 import "./AchievementsTitle.css";
-import { useLocale } from "@/components/LocaleProvider";
-import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
+import { useEffect, useRef } from "react";
+import { useLocale } from "@/components/LocaleProvider";
 
 export default function AchievementsTitle() {
   const { translate } = useLocale();

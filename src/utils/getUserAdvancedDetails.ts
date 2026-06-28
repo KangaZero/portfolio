@@ -3,7 +3,7 @@
  * Mind-blowing tracking capabilities that will shock users
  */
 
-import type { AdvancedBehavior, UserProfile, ClientInfo } from "@/types";
+import type { AdvancedBehavior, ClientInfo, UserProfile } from "@/types";
 
 /** Social login detection result */
 export interface SocialLoginResult {
@@ -241,8 +241,7 @@ export function generateCrossBrowserId(): { id: string; factors: string[] } {
   components.push(`${navigator.hardwareConcurrency}`);
   factors.push(`CPU Cores: ${navigator.hardwareConcurrency}`);
 
-  const deviceMem = (navigator as Navigator & { deviceMemory?: number })
-    .deviceMemory;
+  const deviceMem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
   if (deviceMem) {
     components.push(`${deviceMem}`);
     factors.push(`RAM: ${deviceMem}GB`);
@@ -460,13 +459,11 @@ class AdvancedBehaviorTracker {
     document.addEventListener("input", this.handleFormInput, true);
 
     // Activity tracking
-    ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(
-      (event) => {
-        document.addEventListener(event, this.handleActivity, {
-          passive: true,
-        });
-      },
-    );
+    ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach((event) => {
+      document.addEventListener(event, this.handleActivity, {
+        passive: true,
+      });
+    });
   }
 
   stop(): void {
@@ -502,8 +499,7 @@ class AdvancedBehaviorTracker {
     // Calculate average focus duration
     const avgFocus =
       this.state.focusPeriods.length > 0
-        ? this.state.focusPeriods.reduce((a, b) => a + b, 0) /
-          this.state.focusPeriods.length
+        ? this.state.focusPeriods.reduce((a, b) => a + b, 0) / this.state.focusPeriods.length
         : 0;
 
     return {
@@ -559,7 +555,7 @@ class AdvancedBehaviorTracker {
 
   private handleSelection = (): void => {
     const selection = window.getSelection();
-    if (selection && selection.toString().trim()) {
+    if (selection?.toString().trim()) {
       this.state.textSelectCount++;
       this.state.lastSelectedText = selection.toString();
     }
@@ -588,9 +584,7 @@ class AdvancedBehaviorTracker {
     if (recentClicks.length >= 3) {
       const firstClick = recentClicks[0];
       const allNearby = recentClicks.every(
-        (c) =>
-          Math.abs(c.x - firstClick.x) < 50 &&
-          Math.abs(c.y - firstClick.y) < 50,
+        (c) => Math.abs(c.x - firstClick.x) < 50 && Math.abs(c.y - firstClick.y) < 50,
       );
       if (allNearby) {
         this.state.rageClickCount++;
@@ -636,19 +630,13 @@ class AdvancedBehaviorTracker {
   };
 
   private handleFormFocus = (e: Event): void => {
-    if (
-      e.target instanceof HTMLInputElement ||
-      e.target instanceof HTMLTextAreaElement
-    ) {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
       this.state.formInteractions++;
     }
   };
 
   private handleFormInput = (e: Event): void => {
-    if (
-      e.target instanceof HTMLInputElement ||
-      e.target instanceof HTMLTextAreaElement
-    ) {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
       const name = e.target.name || e.target.id || "unknown";
       this.state.formFieldsTyped.add(name);
     }
@@ -656,8 +644,7 @@ class AdvancedBehaviorTracker {
 
   private handleActivity = (): void => {
     const now = Date.now();
-    const wasIdle =
-      now - this.state.lastActivityTime > this.state.idleThreshold;
+    const wasIdle = now - this.state.lastActivityTime > this.state.idleThreshold;
 
     if (wasIdle) {
       this.state.afkCount++;
@@ -825,12 +812,7 @@ function parseGPU(renderer: string | null | undefined): {
   }
 
   // NVIDIA
-  if (
-    r.includes("nvidia") ||
-    r.includes("geforce") ||
-    r.includes("rtx") ||
-    r.includes("gtx")
-  ) {
+  if (r.includes("nvidia") || r.includes("geforce") || r.includes("rtx") || r.includes("gtx")) {
     // RTX 40 series
     if (r.includes("4090"))
       return {
@@ -1165,8 +1147,7 @@ function inferCountry(timezone: string): string {
   if (timezone.startsWith("Europe/")) return "Europe";
   if (timezone.startsWith("Asia/")) return "Asia";
   if (timezone.startsWith("Africa/")) return "Africa";
-  if (timezone.startsWith("Australia/") || timezone.startsWith("Pacific/"))
-    return "Oceania";
+  if (timezone.startsWith("Australia/") || timezone.startsWith("Pacific/")) return "Oceania";
 
   return "Unknown";
 }
@@ -1175,9 +1156,7 @@ function inferCountry(timezone: string): string {
  * Generate user profile based on collected data
  * This is what advertisers and big tech companies infer about you
  */
-export function generateUserProfile(
-  clientInfo: Partial<ClientInfo>,
-): UserProfile {
+export function generateUserProfile(clientInfo: Partial<ClientInfo>): UserProfile {
   let developerScore = 0;
   let gamerScore = 0;
   let designerScore = 0;
@@ -1251,18 +1230,14 @@ export function generateUserProfile(
   ];
   const commonMonoFonts = ["Monaco", "Menlo", "Consolas", "Courier New"];
   const foundSpecializedFonts =
-    clientInfo.fontsDetected?.filter((f) =>
-      specializedCodingFonts.includes(f),
-    ) || [];
+    clientInfo.fontsDetected?.filter((f) => specializedCodingFonts.includes(f)) || [];
   const foundCommonMonoFonts =
     clientInfo.fontsDetected?.filter((f) => commonMonoFonts.includes(f)) || [];
 
   if (foundSpecializedFonts.length > 0) {
     // Specialized coding fonts are strong indicators (user went out of way to install)
     developerScore += 25 + Math.min(foundSpecializedFonts.length * 8, 24); // Max 49
-    developerSignals.push(
-      `Coding fonts: ${foundSpecializedFonts.slice(0, 3).join(", ")}`,
-    );
+    developerSignals.push(`Coding fonts: ${foundSpecializedFonts.slice(0, 3).join(", ")}`);
   } else if (foundCommonMonoFonts.length >= 2) {
     // Multiple common mono fonts is weaker signal (may come with OS)
     developerScore += 8;
@@ -1304,8 +1279,7 @@ export function generateUserProfile(
   // TIER 4: Weak/supporting signals (low confidence alone)
   // Touch typing speed indicators - fast copy/paste patterns
   const copyPasteRatio =
-    (clientInfo.advancedBehavior?.copyCount || 0) +
-    (clientInfo.advancedBehavior?.pasteCount || 0);
+    (clientInfo.advancedBehavior?.copyCount || 0) + (clientInfo.advancedBehavior?.pasteCount || 0);
   if (copyPasteRatio >= 5) {
     developerScore += 5; // Frequent copy/paste suggests coding workflow
   }
@@ -1316,16 +1290,12 @@ export function generateUserProfile(
   }
 
   // Wide screen resolution (common for dev workstations)
-  if (
-    (clientInfo.screenWidth || 0) >= 2560 &&
-    (clientInfo.devicePixelRatio || 1) >= 1
-  ) {
+  if ((clientInfo.screenWidth || 0) >= 2560 && (clientInfo.devicePixelRatio || 1) >= 1) {
     developerScore += 6;
   }
 
   // Ultrawide aspect ratio (very common for developers)
-  const aspectRatio =
-    (clientInfo.screenWidth || 1920) / (clientInfo.screenHeight || 1080);
+  const aspectRatio = (clientInfo.screenWidth || 1920) / (clientInfo.screenHeight || 1080);
   if (aspectRatio >= 2.3) {
     // 21:9 or wider
     developerScore += 10;
@@ -1354,11 +1324,7 @@ export function generateUserProfile(
   } else if (gpu.tier === "mid" && gpu.brand !== "Apple") {
     // Mid-range discrete GPUs - moderate gaming signal (could be casual/entry gamer)
     // Exclude Intel UHD as it's integrated
-    if (
-      !gpu.model.includes("Intel") &&
-      !gpu.model.includes("UHD") &&
-      !gpu.model.includes("Iris")
-    ) {
+    if (!gpu.model.includes("Intel") && !gpu.model.includes("UHD") && !gpu.model.includes("Iris")) {
       gamerScore += 22;
       gamerSignals.push(`${gpu.model} (discrete GPU)`);
     }
@@ -1369,9 +1335,7 @@ export function generateUserProfile(
   if (clientInfo.gamepadsSupported) {
     try {
       const gamepads = navigator.getGamepads?.();
-      const connectedGamepads = gamepads
-        ? Array.from(gamepads).filter((g) => g !== null)
-        : [];
+      const connectedGamepads = gamepads ? Array.from(gamepads).filter((g) => g !== null) : [];
       if (connectedGamepads.length > 0) {
         gamerScore += 50; // Very strong signal
         gamerSignals.push("Gamepad connected");
@@ -1390,8 +1354,9 @@ export function generateUserProfile(
   // High refresh rate detection (if available) - strong gaming signal
   // Most gaming monitors are 120Hz+, regular monitors are 60Hz
   // Note: This requires the Screen API extension which may not be available
-  const screenRefreshRate = (clientInfo as Record<string, unknown>)
-    .screenRefreshRate as number | undefined;
+  const screenRefreshRate = (clientInfo as Record<string, unknown>).screenRefreshRate as
+    | number
+    | undefined;
   if (screenRefreshRate) {
     if (screenRefreshRate >= 240) {
       gamerScore += 40;
@@ -1457,9 +1422,7 @@ export function generateUserProfile(
   // TIER 4: Behavioral signals (weak but supportive)
   // Fast mouse movement patterns could indicate gamer (higher DPI, faster reflexes)
   // This would need to be measured in the behavior tracker - placeholder for future
-  const mouseSpeed = (clientInfo as Record<string, unknown>).avgMouseSpeed as
-    | number
-    | undefined;
+  const mouseSpeed = (clientInfo as Record<string, unknown>).avgMouseSpeed as number | undefined;
   if (mouseSpeed && mouseSpeed > 1500) {
     // Pixels per second
     gamerScore += 10;
@@ -1506,14 +1469,8 @@ export function generateUserProfile(
   const hasMultiTouch = touchPoints > 1;
 
   // Stylus/pen input detection (common for digital artists)
-  const pointerTypes = (clientInfo as Record<string, unknown>).pointerTypes as
-    | string[]
-    | undefined;
-  if (
-    pointerTypes &&
-    Array.isArray(pointerTypes) &&
-    pointerTypes.includes("pen")
-  ) {
+  const pointerTypes = (clientInfo as Record<string, unknown>).pointerTypes as string[] | undefined;
+  if (pointerTypes && Array.isArray(pointerTypes) && pointerTypes.includes("pen")) {
     designerScore += 45;
     designerSignals.push("Stylus/pen input detected");
     inferredInterests.push("Digital Art");
@@ -1521,11 +1478,7 @@ export function generateUserProfile(
 
   // Apple devices with Pro-level hardware - very common for designers
   if (gpu.brand === "Apple") {
-    if (
-      gpu.model.includes("Pro") ||
-      gpu.model.includes("Max") ||
-      gpu.model.includes("Ultra")
-    ) {
+    if (gpu.model.includes("Pro") || gpu.model.includes("Max") || gpu.model.includes("Ultra")) {
       designerScore += 35;
       designerSignals.push(`Apple ${gpu.model} (pro creative hardware)`);
       inferredInterests.push("Creative Professional");
@@ -1597,20 +1550,14 @@ export function generateUserProfile(
   ];
 
   const foundProfessionalFonts =
-    clientInfo.fontsDetected?.filter((f) =>
-      professionalDesignFonts.includes(f),
-    ) || [];
+    clientInfo.fontsDetected?.filter((f) => professionalDesignFonts.includes(f)) || [];
   const foundCommonDesignFonts =
-    clientInfo.fontsDetected?.filter((f) => commonDesignFonts.includes(f)) ||
-    [];
-  const foundAdobeFonts =
-    clientInfo.fontsDetected?.filter((f) => adobeFonts.includes(f)) || [];
+    clientInfo.fontsDetected?.filter((f) => commonDesignFonts.includes(f)) || [];
+  const foundAdobeFonts = clientInfo.fontsDetected?.filter((f) => adobeFonts.includes(f)) || [];
 
   if (foundProfessionalFonts.length > 0) {
     designerScore += 25 + Math.min(foundProfessionalFonts.length * 5, 15);
-    designerSignals.push(
-      `Professional fonts: ${foundProfessionalFonts.slice(0, 2).join(", ")}`,
-    );
+    designerSignals.push(`Professional fonts: ${foundProfessionalFonts.slice(0, 2).join(", ")}`);
   }
   if (foundAdobeFonts.length > 0) {
     designerScore += 20;
@@ -1657,8 +1604,7 @@ export function generateUserProfile(
 
   // TIER 1: Strong behavioral signals
   // Keyboard shortcuts are a strong indicator - casual users rarely use them
-  const shortcutsUsed =
-    clientInfo.advancedBehavior?.keyboardShortcutsUsed || [];
+  const shortcutsUsed = clientInfo.advancedBehavior?.keyboardShortcutsUsed || [];
   const shortcutCount = shortcutsUsed.length;
 
   // Weight shortcuts by complexity
@@ -1668,9 +1614,7 @@ export function generateUserProfile(
 
   if (shortcutCount >= 5 || advancedShortcuts.length >= 3) {
     powerUserScore += 45;
-    powerUserSignals.push(
-      `Heavy keyboard shortcut user (${shortcutCount}+ shortcuts)`,
-    );
+    powerUserSignals.push(`Heavy keyboard shortcut user (${shortcutCount}+ shortcuts)`);
   } else if (shortcutCount >= 3) {
     powerUserScore += 30;
     powerUserSignals.push(`Uses keyboard shortcuts (${shortcutCount})`);
@@ -1684,9 +1628,7 @@ export function generateUserProfile(
   const extCount = clientInfo.extensionsDetected?.length || 0;
   if (extCount >= 6) {
     powerUserScore += 35;
-    powerUserSignals.push(
-      `${extCount} browser extensions (heavily customized)`,
-    );
+    powerUserSignals.push(`${extCount} browser extensions (heavily customized)`);
   } else if (extCount >= 4) {
     powerUserScore += 25;
     powerUserSignals.push(`${extCount} browser extensions`);
@@ -1711,9 +1653,7 @@ export function generateUserProfile(
     ) || [];
   if (foundPowerExtensions.length > 0) {
     powerUserScore += 15 + Math.min(foundPowerExtensions.length * 5, 15);
-    powerUserSignals.push(
-      `Power user extensions: ${foundPowerExtensions.slice(0, 2).join(", ")}`,
-    );
+    powerUserSignals.push(`Power user extensions: ${foundPowerExtensions.slice(0, 2).join(", ")}`);
   }
 
   // TIER 3: Usage pattern signals
@@ -1735,9 +1675,7 @@ export function generateUserProfile(
       .map(([name]) => name);
     if (grantedPermissions.length >= 4) {
       powerUserScore += 20;
-      powerUserSignals.push(
-        `${grantedPermissions.length} browser permissions granted`,
-      );
+      powerUserSignals.push(`${grantedPermissions.length} browser permissions granted`);
     } else if (grantedPermissions.length >= 2) {
       powerUserScore += 10;
     }
@@ -1751,8 +1689,7 @@ export function generateUserProfile(
 
   // TIER 4: Hardware signals (power users often have better hardware)
   // Multi-monitor setup detection (via screen size inconsistencies or reported)
-  const totalScreenArea =
-    (clientInfo.screenWidth || 0) * (clientInfo.screenHeight || 0);
+  const totalScreenArea = (clientInfo.screenWidth || 0) * (clientInfo.screenHeight || 0);
   if ((clientInfo.screenWidth || 0) >= 3840 || totalScreenArea >= 3840 * 1080) {
     powerUserScore += 8;
   }
@@ -1811,10 +1748,7 @@ export function generateUserProfile(
   }
 
   // WebRTC blocked (privacy extension)
-  if (
-    clientInfo.webrtcLocalIPs?.length === 0 &&
-    clientInfo.webrtcSupported === true
-  ) {
+  if (clientInfo.webrtcLocalIPs?.length === 0 && clientInfo.webrtcSupported === true) {
     privacyScore += 20;
     privacyReason = privacyReason || "WebRTC blocked";
   }
@@ -1845,8 +1779,7 @@ export function generateUserProfile(
   else if (deviceRam >= 4) baseValue += 50;
 
   // Display value
-  const screenRes =
-    (clientInfo.screenWidth || 0) * (clientInfo.screenHeight || 0);
+  const screenRes = (clientInfo.screenWidth || 0) * (clientInfo.screenHeight || 0);
   if (screenRes >= 3840 * 2160)
     baseValue += 400; // 4K
   else if (screenRes >= 2560 * 1440)
@@ -1893,20 +1826,11 @@ export function generateUserProfile(
 
   // GPU age estimation
   if (gpu.model.includes("40") || gpu.model.includes("M3")) deviceAge = "new";
-  else if (
-    gpu.model.includes("30") ||
-    gpu.model.includes("M2") ||
-    gpu.model.includes("7")
-  )
+  else if (gpu.model.includes("30") || gpu.model.includes("M2") || gpu.model.includes("7"))
     deviceAge = "recent";
-  else if (
-    gpu.model.includes("20") ||
-    gpu.model.includes("M1") ||
-    gpu.model.includes("6")
-  )
+  else if (gpu.model.includes("20") || gpu.model.includes("M1") || gpu.model.includes("6"))
     deviceAge = "recent";
-  else if (gpu.model.includes("10") || gpu.model.includes("5"))
-    deviceAge = "older";
+  else if (gpu.model.includes("10") || gpu.model.includes("5")) deviceAge = "older";
 
   // ============ BOT/HUMAN DETECTION ============
   let humanScore = 100;
@@ -1935,10 +1859,7 @@ export function generateUserProfile(
     humanScore -= 15;
     botIndicators.push("No browser plugins");
   }
-  if (
-    clientInfo.behavior?.mouseMovements === 0 &&
-    clientInfo.behavior?.keyPressCount === 0
-  ) {
+  if (clientInfo.behavior?.mouseMovements === 0 && clientInfo.behavior?.keyPressCount === 0) {
     humanScore -= 25;
     botIndicators.push("No user interaction detected");
   }
@@ -2028,9 +1949,7 @@ export function generateUserProfile(
       (clientInfo.hardwareFamily?.includes("Phone") ||
         clientInfo.hardwareFamily?.includes("Android") ||
         false),
-    likelyWorkDevice: !!(
-      clientInfo.socialLogins?.microsoft || clientInfo.socialLogins?.linkedin
-    ),
+    likelyWorkDevice: !!(clientInfo.socialLogins?.microsoft || clientInfo.socialLogins?.linkedin),
     likelyCountry,
     inferredInterests: [...new Set(inferredInterests)],
     fraudRiskScore: Math.min(fraudRiskScore, 100),

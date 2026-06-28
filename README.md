@@ -17,13 +17,20 @@ git clone https://github.com/once-ui-system/magic-portfolio.git
 
 **2. Install dependencies**
 ```
-npm install
+pnpm install
 ```
 
 **3. Run dev server**
 ```
-npm run dev
+pnpm dev
 ```
+
+> This repo uses **pnpm** (pinned via `packageManager`) and **Node 26**.
+> If you use [nix](https://nixos.org) + [direnv](https://direnv.net), `direnv allow`
+> drops you into a dev shell with the right Node/pnpm/just and installs the
+> git hooks automatically. Common tasks are wrapped in a `justfile` — run `just`
+> to list them (`just dev`, `just build`, `just lint`, `just format`,
+> `just typecheck`, `just upgrade`).
 
 **4. Edit config**
 ```
@@ -40,7 +47,7 @@ src/resources/content.js
 Add a new .mdx file to src/app/blog/posts or src/app/work/projects
 ```
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v26+.
 
 ## Documentation
 

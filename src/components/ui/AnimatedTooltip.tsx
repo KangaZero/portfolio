@@ -1,13 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import {
-  motion,
-  useTransform,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useRef, useState } from "react";
 import "./AnimatedTooltip.css";
 
 export const AnimatedTooltip = ({
@@ -26,18 +20,10 @@ export const AnimatedTooltip = ({
   const x = useMotionValue(0);
   const animationFrameRef = useRef<number | null>(null);
 
-  const rotate = useSpring(
-    useTransform(x, [-100, 100], [-45, 45]),
-    springConfig,
-  );
-  const translateX = useSpring(
-    useTransform(x, [-100, 100], [-50, 50]),
-    springConfig,
-  );
+  const rotate = useSpring(useTransform(x, [-100, 100], [-45, 45]), springConfig);
+  const translateX = useSpring(useTransform(x, [-100, 100], [-50, 50]), springConfig);
 
-  const handleShowAnimatedTooltip = (
-    event: React.PointerEvent<HTMLDivElement>,
-  ) => {
+  const handleShowAnimatedTooltip = (event: React.PointerEvent<HTMLDivElement>) => {
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }

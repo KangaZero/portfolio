@@ -2,21 +2,21 @@ import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 import "@/app/[lang]/globals.css";
-import classNames from "classnames";
 import {
   Background,
   Column,
   Flex,
   Meta,
-  opacity,
+  type opacity,
   RevealFx,
-  SpacingToken,
+  type SpacingToken,
 } from "@once-ui-system/core";
-import { Footer, Header, RouteGuard, Providers } from "@/components";
-import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
-import { Metadata } from "next";
-import { AchievementToast } from "@/components/ui/achievement-toast";
+import classNames from "classnames";
+import type { Metadata } from "next";
+import { Footer, Header, Providers, RouteGuard } from "@/components";
 import RippleGrid from "@/components/RippleGrid";
+import { AchievementToast } from "@/components/ui/achievement-toast";
+import { baseURL, dataStyle, effects, fonts, home, style } from "@/resources";
 import { LayoutBackgroundMaple } from "./layoutBackgroundMaple";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -33,10 +33,7 @@ export async function generateStaticParams() {
   return [{ lang: "en" }, { lang: "ja" }];
 }
 
-export default async function RootLayout({
-  params,
-  children,
-}: LayoutProps<"/[lang]">) {
+export default async function RootLayout({ params, children }: LayoutProps<"/[lang]">) {
   const lang = (await params).lang as "ja" | "en";
   return (
     <Flex

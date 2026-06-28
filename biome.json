@@ -1,24 +1,78 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": true,
+    "includes": ["**", "!public", "!**/*.svg", "!src/components/ui/header-date.css"]
   },
   "formatter": {
-    "ignore": ["**/next/**", "**/node_modules/**", "**/dist/**", "**/build/**"],
+    "includes": [
+      "**",
+      "!**/.next/**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!**/out/**",
+      "!pnpm-lock.yaml"
+    ],
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 100
   },
-  "linter": {
-    "ignore": ["**/next/**", "**/node_modules/**", "**/dist/**", "**/build/**"],
+  "assist": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "includes": [
+      "**",
+      "!**/.next/**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!**/out/**",
+      "!pnpm-lock.yaml"
+    ],
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noImportantStyles": "warn"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "warn"
+      },
+      "performance": {
+        "noImgElement": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noDocumentCookie": "warn"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "warn",
+        "useSemanticElements": "warn",
+        "noStaticElementInteractions": "warn",
+        "useFocusableInteractive": "warn",
+        "noNoninteractiveTabindex": "warn",
+        "useValidAriaRole": "warn",
+        "useAriaPropsSupportedByRole": "warn",
+        "useAltText": "warn"
+      }
+    }
   },
   "javascript": {
     "formatter": {

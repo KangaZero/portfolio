@@ -1,6 +1,6 @@
 import "@tanstack/react-query";
-import { MUTATION_KEYS, QUERY_KEYS } from "./reactQueryKeys";
-import { UseQueryOptions } from "@tanstack/react-query";
+import type { UseQueryOptions } from "@tanstack/react-query";
+import type { MUTATION_KEYS, QUERY_KEYS } from "./reactQueryKeys";
 
 export type QueryKeys = (typeof QUERY_KEYS)[keyof typeof QUERY_KEYS];
 export type QueryKey = [QueryKeys, ...ReadonlyArray<unknown>];

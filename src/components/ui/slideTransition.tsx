@@ -67,10 +67,7 @@ export function SlideTransition({
             background: "none",
             border: "none",
           }}
-          className={cn(
-            `${name}-enter-slide-${startName}`,
-            `${name}-exit-slide-${endName}`,
-          )}
+          className={cn(`${name}-enter-slide-${startName}`, `${name}-exit-slide-${endName}`)}
         >
           {children}
         </div>

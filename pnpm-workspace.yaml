@@ -1,0 +1,14 @@
+# Do not install any package version published less than 7 days ago (10080 minutes).
+# Protects against supply-chain attacks via freshly-published malicious releases.
+minimumReleaseAge: 10080
+
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': true
+  msw: false
+  sharp: true
+  unrs-resolver: true
+
+overrides:
+  '@types/react': 19.2.17
+  '@types/react-dom': 19.2.3

@@ -1,20 +1,13 @@
 "use client";
 
 import "./HeaderDock.css";
-import { display, routes } from "@/resources";
+import { Animation, IconButton, Line, Row, StyleOverlay, ToggleButton } from "@once-ui-system/core";
 import { usePathname } from "next/navigation";
-import {
-  Animation,
-  Row,
-  Line,
-  StyleOverlay,
-  IconButton,
-  ToggleButton,
-} from "@once-ui-system/core";
+import { useEffect, useState } from "react";
 import { useLocale } from "@/components/LocaleProvider";
-import { useState, useEffect } from "react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { LocaleToggle } from "@/components/LocaleToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { display, routes } from "@/resources";
 
 const HeaderDock = () => {
   const pathname = usePathname() ?? "";
@@ -38,17 +31,13 @@ const HeaderDock = () => {
     menuIcons.forEach((icon, idx, icons) => {
       icon.addEventListener("mouseenter", () => {
         icon.classList.add("menuIconHovered");
-        if (icons[idx - 1])
-          icons[idx - 1].classList.add("adjacentMenuIconHovered");
-        if (icons[idx + 1])
-          icons[idx + 1].classList.add("adjacentMenuIconHovered");
+        if (icons[idx - 1]) icons[idx - 1].classList.add("adjacentMenuIconHovered");
+        if (icons[idx + 1]) icons[idx + 1].classList.add("adjacentMenuIconHovered");
       });
       icon.addEventListener("mouseleave", () => {
         icon.classList.remove("menuIconHovered");
-        if (icons[idx - 1])
-          icons[idx - 1].classList.remove("adjacentMenuIconHovered");
-        if (icons[idx + 1])
-          icons[idx + 1].classList.remove("adjacentMenuIconHovered");
+        if (icons[idx - 1]) icons[idx - 1].classList.remove("adjacentMenuIconHovered");
+        if (icons[idx + 1]) icons[idx + 1].classList.remove("adjacentMenuIconHovered");
       });
     });
     return () => {
@@ -70,12 +59,7 @@ const HeaderDock = () => {
         horizontal="center"
         zIndex={1}
       >
-        <Row
-          gap="4"
-          vertical="center"
-          textVariant="body-default-s"
-          suppressHydrationWarning
-        >
+        <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
           {routes["/"] && (
             <>
               <Row s={{ hide: true }}>
@@ -112,15 +96,8 @@ const HeaderDock = () => {
               </Row>
             </>
           )}
-          <Row
-            className={`menuItems ${hideMenu ? "menuHidden" : "menuVisible"}`}
-          >
-            <Line
-              background="neutral-alpha-medium"
-              vert
-              maxHeight="24"
-              s={{ hide: true }}
-            />
+          <Row className={`menuItems ${hideMenu ? "menuHidden" : "menuVisible"}`}>
+            <Line background="neutral-alpha-medium" vert maxHeight="24" s={{ hide: true }} />
             {routes["/about"] && (
               <>
                 <Row s={{ hide: true }}>
@@ -238,11 +215,7 @@ const HeaderDock = () => {
               <ThemeToggle className="menuIcon" />
             </>
           )}
-          {display.localeSwitcher && (
-            <>
-              <LocaleToggle className="menuIcon" />
-            </>
-          )}
+          {display.localeSwitcher && <LocaleToggle className="menuIcon" />}
           {!hideMenu && (
             <>
               <Line

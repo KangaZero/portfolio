@@ -1,18 +1,9 @@
 import "./achievement-card.css";
-import { Achievement, AchievementTitle } from "@/types";
+import { Avatar, Card, Column, IconButton, Line, Row, Text, useToast } from "@once-ui-system/core";
 import { achievementTrophyMapping } from "@/resources";
-import {
-  Line,
-  IconButton,
-  Card,
-  Row,
-  Column,
-  Avatar,
-  Text,
-} from "@once-ui-system/core";
-import GlareHover from "./glare-hover";
-import { useToast } from "@once-ui-system/core";
+import type { Achievement, AchievementTitle } from "@/types";
 import { AnimatedTooltip } from "./AnimatedTooltip";
+import GlareHover from "./glare-hover";
 
 const rarityColors = {
   common: "var(--border-color)",
@@ -22,11 +13,7 @@ const rarityColors = {
   mythic: "linear-gradient(90deg, #00c3ff 0%, #ff00cc 100%)",
 };
 
-export const AchievementCard = ({
-  achievement,
-}: {
-  achievement: Achievement;
-}) => {
+export const AchievementCard = ({ achievement }: { achievement: Achievement }) => {
   const { title, description, rarity, isUnlocked, image } = achievement;
   const { addToast } = useToast();
   const handleShareAchievement = async () => {
@@ -83,9 +70,7 @@ export const AchievementCard = ({
             {image ? (
               <Avatar size="xs" src={image.src} />
             ) : (
-              <Text style={{ fontSize: "2.5em" }}>
-                {achievementTrophyMapping[rarity]}
-              </Text>
+              <Text style={{ fontSize: "2.5em" }}>{achievementTrophyMapping[rarity]}</Text>
             )}
             <Text variant="label-default-s" style={{ fontWeight: 700 }}>
               {title}
@@ -117,11 +102,7 @@ export const AchievementCard = ({
                   title={"Share Achievement"}
                   description="Share your achievement with others!"
                 >
-                  <IconButton
-                    icon="share"
-                    variant="ghost"
-                    onPointerDown={handleShareAchievement}
-                  />
+                  <IconButton icon="share" variant="ghost" onPointerDown={handleShareAchievement} />
                 </AnimatedTooltip>
               </Row>
             </>

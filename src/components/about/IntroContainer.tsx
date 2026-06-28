@@ -1,11 +1,11 @@
 "use client";
-import { about, social, skills } from "@/resources";
-import { Column, Row, Icon, IconButton, Button } from "@once-ui-system/core";
+import { Button, Column, Icon, IconButton, Row } from "@once-ui-system/core";
 import React from "react";
+import styles from "@/components/about/about.module.scss";
 import { RubyNameTitle } from "@/components/about/RubyNameTitle";
 import { SkillsContainer } from "@/components/about/SkillsContainer";
-import styles from "@/components/about/about.module.scss";
 import { useLocale } from "@/components/LocaleProvider";
+import { about, skills, social } from "@/resources";
 
 const IntroContainer = () => {
   const { translate, locale } = useLocale();
@@ -112,16 +112,12 @@ const IntroContainer = () => {
       </Column>
 
       {about.intro.display && (
-        <Column
-          textVariant="body-default-l"
-          fillWidth
-          gap="m"
-          marginBottom="xl"
-        >
+        <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
           {translate("about.intro.description")}
         </Column>
       )}
     </>
   );
 };
+
 export { IntroContainer };

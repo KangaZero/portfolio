@@ -1,52 +1,52 @@
 .avatar-wrapper {
-    position: relative;
-    width: 180px; /* match polygon container */
-    height: 260px; /* match polygon container */
+  position: relative;
+  width: 180px; /* match polygon container */
+  height: 260px; /* match polygon container */
 }
 .avatar-polygon-container {
-    width: 180px;
-    height: 220px;
-    position: relative;
-    /*https://bennettfeely.com/clippy/*/
-    clip-path: polygon(
-        16% 37%,
-        15% 88%,
-        25% 100%,
-        25% 53%,
-        74% 34%,
-        75% 75%,
-        25% 75%,
-        24% 100%,
-        86% 78%,
-        100% 1%
-    );
-    background: #f0f0f0; /* or transparent */
-    overflow: visible; /* allow image to overflow */
-    z-index: 1;
+  width: 180px;
+  height: 220px;
+  position: relative;
+  /*https://bennettfeely.com/clippy/*/
+  clip-path: polygon(
+    16% 37%,
+    15% 88%,
+    25% 100%,
+    25% 53%,
+    74% 34%,
+    75% 75%,
+    25% 75%,
+    24% 100%,
+    86% 78%,
+    100% 1%
+  );
+  background: #f0f0f0; /* or transparent */
+  overflow: visible; /* allow image to overflow */
+  z-index: 1;
 }
 
 .avatar-img {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    object-fit: cover;
-    z-index: 2;
-    bottom: -5px; /* pull image out of the box at the bottom */
-    /* Optional: add a drop shadow for effect */
-    filter: invert(0) brightness(1);
-    transition: filter 0.3s;
-    /*filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: cover;
+  z-index: 2;
+  bottom: -5px; /* pull image out of the box at the bottom */
+  /* Optional: add a drop shadow for effect */
+  filter: invert(0) brightness(1);
+  transition: filter 0.3s;
+  /*filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
     background: transparent;*/
 }
 
 .avatar-img-dark {
-    filter: invert(1) brightness(2);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    object-fit: cover;
-    z-index: 2;
-    bottom: -5px; /* pull image out of the box at the bottom */
+  filter: invert(1) brightness(2);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: cover;
+  z-index: 2;
+  bottom: -5px; /* pull image out of the box at the bottom */
 
-    transition: filter 0.3s;
+  transition: filter 0.3s;
 }

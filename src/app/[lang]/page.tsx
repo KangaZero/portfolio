@@ -1,25 +1,23 @@
 import {
-  RevealFx,
   Column,
-  Schema,
-  Meta,
-  Line,
-  Option,
   ContextMenu,
   Icon,
+  Line,
+  Meta,
+  Option,
+  RevealFx,
+  Schema,
 } from "@once-ui-system/core";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { type Metadata } from "next";
-
-import { home, about, person, baseURL, userSettings } from "@/resources";
-
+import type { Metadata } from "next";
+import { HomeHeading } from "@/components/home/HomeHeading";
+import HomeProjectsTitle from "@/components/home/HomeProjectsTitle";
 // import { Mailchimp } from "@/components";
 // import { Projects } from "@/components/work/Projects";
 // import { Posts } from "@/components/blog/Posts";
 // import DrawingPanel from "@/components/DrawingPanel";
 import MagicBento from "@/components/MagicBento";
-import { HomeHeading } from "@/components/home/HomeHeading";
-import HomeProjectsTitle from "@/components/home/HomeProjectsTitle";
+import { about, baseURL, home, person, userSettings } from "@/resources";
 // import { ExpandableProjectCardGrid } from "@/components/ui/ExpandableProjectCardGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,24 +37,18 @@ export default function Home() {
       dropdown={
         <Column gap="2" padding="4" minWidth={10}>
           <Option
-            hasPrefix={
-              <Icon size="xs" name="edit" onBackground="neutral-weak" />
-            }
+            hasPrefix={<Icon size="xs" name="edit" onBackground="neutral-weak" />}
             label="Edit"
             value="edit"
           />
           <Option
-            hasPrefix={
-              <Icon size="xs" name="copy" onBackground="neutral-weak" />
-            }
+            hasPrefix={<Icon size="xs" name="copy" onBackground="neutral-weak" />}
             label="Duplicate"
             value="duplicate"
           />
           <Line marginY="2" />
           <Option
-            hasPrefix={
-              <Icon size="xs" name="delete" onBackground="danger-medium" />
-            }
+            hasPrefix={<Icon size="xs" name="delete" onBackground="danger-medium" />}
             danger
             label="Delete"
             value="delete"
@@ -107,10 +99,7 @@ export default function Home() {
         <RevealFx fillWidth horizontal="center">
           <HomeProjectsTitle />
         </RevealFx>
-        <MagicBento
-          textAutoHide={true}
-          disableAnimations={!userSettings.isEffectsEnabled}
-        />
+        <MagicBento textAutoHide={true} disableAnimations={!userSettings.isEffectsEnabled} />
         {/*<ExpandableProjectCardGrid />*/}
         {/*<Projects range={[2]} />*/}
         {/*<Column fillWidth gap="xl">

@@ -1,22 +1,13 @@
 "use client";
 
-import {
-  ReactNode,
-  useState,
-  useContext,
-  createContext,
-  useEffect,
-} from "react";
 import { usePathname } from "next/navigation";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { type TranslationKey, t } from "@/lib/i18n";
+import { useI18nIndicator } from "@/resources";
 import { getLocaleCookieFromClient } from "@/utils/getLocaleCookie";
 import { setLocaleCookie } from "@/utils/setLocaleCookie";
-import { t, TranslationKey } from "@/lib/i18n";
-import { useI18nIndicator } from "@/resources";
 
-type OmitSecondParamFromFunction<F> = F extends (
-  arg1: infer A,
-  arg2: infer B,
-) => infer R
+type OmitSecondParamFromFunction<F> = F extends (arg1: infer A, arg2: infer B) => infer R
   ? (arg1: A) => R
   : never;
 
@@ -24,21 +15,12 @@ type LocaleContextType = {
   locale: "en" | "ja";
   setLocaleCookieAndState: (locale: "en" | "ja") => void;
   translate: OmitSecondParamFromFunction<typeof t>;
-  useLocaleContentOrDefaultContent<T = string>(
-    value: T | string,
-    key: TranslationKey,
-  ): string | T;
+  useLocaleContentOrDefaultContent<T = string>(value: T | string, key: TranslationKey): string | T;
 };
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 
-export const LocaleProvider = ({
-  children,
-  lang,
-}: {
-  children: ReactNode;
-  lang: string;
-}) => {
+export const LocaleProvider = ({ children, lang }: { children: ReactNode; lang: string }) => {
   const pathname = usePathname();
   const [locale, setLocale] = useState<"en" | "ja">("en");
   useEffect(() => {
@@ -57,9 +39,7 @@ export const LocaleProvider = ({
       } else if (userLanguage === "en" || userLanguage.startsWith("en-")) {
         return setLocaleCookie("en");
       } else {
-        console.warn(
-          "No default locale found or incompatible, falling back to EN",
-        );
+        console.warn("No default locale found or incompatible, falling back to EN");
         return setLocaleCookie("en");
       }
     }
@@ -67,10 +47,7 @@ export const LocaleProvider = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function useLocaleContentOrDefaultContent<T = string>(
-    value: T | string,
-    key: TranslationKey,
-  ) {
+  function useLocaleContentOrDefaultContent<T = string>(value: T | string, key: TranslationKey) {
     if (typeof value === "string" && value === useI18nIndicator) {
       return translate(key);
     }
@@ -116,7 +93,6 @@ export const LocaleProvider = ({
 
 export const useLocale = () => {
   const context = useContext(LocaleContext);
-  if (!context)
-    throw new Error("useLocale must be used within a LocaleProvider");
+  if (!context) throw new Error("useLocale must be used within a LocaleProvider");
   return context;
 };
