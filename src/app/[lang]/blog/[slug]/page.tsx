@@ -19,7 +19,7 @@ import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 import { about, baseURL, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { getPosts } from "@/utils/mdx";
+import { getPosts, resolveSlug } from "@/utils/mdx";
 
 export async function generateStaticParams(): Promise<{ lang: string; slug: string }[]> {
   const languages = ["en", "ja"];
@@ -37,7 +37,7 @@ export async function generateMetadata({
 }: {
   params: { lang: string; slug: string | string[] };
 }): Promise<Metadata> {
-  const slugPath = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || "";
+  const slugPath = resolveSlug(params.slug);
 
   const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);
   const post = posts.find((post) => post.slug === slugPath);
@@ -58,7 +58,7 @@ export default async function Blog({
 }: {
   params: { lang: string; slug: string | string[] };
 }) {
-  const slugPath = Array.isArray(params.slug) ? params.slug.join("/") : params.slug || "";
+  const slugPath = resolveSlug(params.slug);
 
   const post = getPosts(["src", "app", "[lang]", "blog", "posts"]).find(
     (post) => post.slug === slugPath,

@@ -72,3 +72,20 @@ export function getPosts(customPath = ["", "", "", ""]) {
   const postsDir = path.join(process.cwd(), ...customPath);
   return getMDXData(postsDir);
 }
+
+export function resolveSlug(slug: string | string[] | undefined): string {
+  return Array.isArray(slug) ? slug.join("/") : slug || "";
+}
+
+export function filterAndSortPosts(
+  posts: ReturnType<typeof getPosts>,
+  { range, exclude = [] }: { range?: [number, number?]; exclude?: string[] },
+) {
+  let filtered = exclude.length ? posts.filter((p) => !exclude.includes(p.slug)) : posts;
+  filtered = filtered.sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime(),
+  );
+  if (!range) return filtered;
+  return filtered.slice(range[0] - 1, range[1] ?? filtered.length);
+}
