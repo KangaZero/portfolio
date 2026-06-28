@@ -109,121 +109,122 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
     terminalInputRef.current.focus();
   }, [terminalInputRef]);
 
+  const inputBar = (
+    <div
+      onPointerDown={() => {
+        terminalInputRef.current?.focus();
+      }}
+      onFocus={() => terminalInputRef.current?.focus()}
+      className="terminal-input-container"
+    >
+      <input
+        ref={terminalInputRef}
+        id="terminal-input"
+        value={terminalInput}
+        onChange={(e) => {
+          // terminalInputRef?.current?.scrollIntoView();
+          setTerminalInput(e.target.value);
+          setCaretPos(e.target.selectionStart ?? e.target.value.length);
+        }}
+        onPointerDown={(e) => {
+          const target = e.target as HTMLInputElement;
+          setCaretPos(target.selectionStart ?? terminalInput.length);
+        }}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        autoComplete="off"
+        spellCheck={false}
+        className="terminal-input-native"
+        style={{
+          position: "absolute",
+          opacity: 0,
+          pointerEvents: "none",
+          width: "100%",
+          left: 0,
+          top: 0,
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            setCaretPos(terminalInputRef.current?.selectionStart ?? terminalInput.length);
+          }
+          if (e.key === "ArrowRight" && e.ctrlKey) {
+            e.preventDefault();
+            const words = terminalInput
+              .slice(caretPos)
+              .split(/(\s+)/)
+              .filter((word) => word.length > 0);
+            if (words.length === 0) return;
+            const firstWord = words[0];
+            const newCaretPos = caretPos + firstWord.length;
+            setCaretPos(newCaretPos);
+            setTimeout(() => {
+              terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
+            }, 0);
+          }
+          if (e.key === "ArrowLeft" && e.ctrlKey) {
+            e.preventDefault();
+            const words = terminalInput
+              .slice(0, caretPos)
+              .split(/(\s+)/)
+              .filter((word) => word.length > 0);
+            if (words.length === 0) return;
+            const lastWord = words[words.length - 1];
+            const newCaretPos = caretPos - lastWord.length;
+            setCaretPos(newCaretPos);
+            setTimeout(() => {
+              terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
+            }, 0);
+          }
+
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSendTerminalCommand();
+          }
+        }}
+      />
+      {typeSafeUserInfo && (
+        <div id="terminal-user-info-icons">
+          <Icon name={typeSafeUserInfo.platform} size="s" />
+          <Line vert height="32" marginX="4" />
+          <Icon
+            name={typeSafeUserInfo.bluetoothSupported ? "bluetooth" : "bluetoothDisabled"}
+            size="s"
+          />
+          <Line vert height="32" marginX="4" />
+          {typeSafeUserInfo.batteryIcon !== "batteryUnknown" && typeSafeUserInfo.batteryLevel && (
+            <IconButton
+              variant="secondary"
+              style={{ pointerEvents: "none" }}
+              tooltip={`${String(typeSafeUserInfo.batteryLevel)}%`}
+              icon={typeSafeUserInfo.batteryIcon}
+              size="s"
+            />
+          )}
+          <Line vert height="32" marginX="4" />
+        </div>
+      )}
+      <pre className="terminal-input-display">
+        {terminalInput.slice(0, caretPos)}
+        <span className={`custom-caret${isFocused ? " blink" : ""}`} />
+        {terminalInput.slice(caretPos)}
+      </pre>
+      <IconButton
+        ref={terminalSendBtnRef}
+        id="terminal-send-btn"
+        tooltip="Send Command (Enter)"
+        icon="send"
+        size="m"
+        onPointerDown={handleSendTerminalCommand}
+      />
+    </div>
+  );
+
   const terminalToShow = enableDialog ? (
     <Terminal ref={terminalContainerRef} enableDialog={enableDialog}>
       <span id="terminal-input-display-area" className="animated-span">
         {""}
       </span>
-      <span className="terminal-input-wrapper animated-span">
-        <div
-          onPointerDown={() => {
-            terminalInputRef.current?.focus();
-          }}
-          onFocus={() => terminalInputRef.current?.focus()}
-          className="terminal-input-container"
-        >
-          <input
-            ref={terminalInputRef}
-            id="terminal-input"
-            value={terminalInput}
-            onChange={(e) => {
-              // terminalInputRef?.current?.scrollIntoView();
-              setTerminalInput(e.target.value);
-              setCaretPos(e.target.selectionStart ?? e.target.value.length);
-            }}
-            onPointerDown={(e) => {
-              const target = e.target as HTMLInputElement;
-              setCaretPos(target.selectionStart ?? terminalInput.length);
-            }}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            autoComplete="off"
-            spellCheck={false}
-            className="terminal-input-native"
-            style={{
-              position: "absolute",
-              opacity: 0,
-              pointerEvents: "none",
-              width: "100%",
-              left: 0,
-              top: 0,
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                setCaretPos(terminalInputRef.current?.selectionStart ?? terminalInput.length);
-              }
-              if (e.key === "ArrowRight" && e.ctrlKey) {
-                e.preventDefault();
-                const words = terminalInput
-                  .slice(caretPos)
-                  .split(/(\s+)/)
-                  .filter((word) => word.length > 0);
-                if (words.length === 0) return;
-                const firstWord = words[0];
-                const newCaretPos = caretPos + firstWord.length;
-                setCaretPos(newCaretPos);
-                setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
-                }, 0);
-              }
-              if (e.key === "ArrowLeft" && e.ctrlKey) {
-                e.preventDefault();
-                const words = terminalInput
-                  .slice(0, caretPos)
-                  .split(/(\s+)/)
-                  .filter((word) => word.length > 0);
-                if (words.length === 0) return;
-                const lastWord = words[words.length - 1];
-                const newCaretPos = caretPos - lastWord.length;
-                setCaretPos(newCaretPos);
-                setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
-                }, 0);
-              }
-
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSendTerminalCommand();
-              }
-            }}
-          />
-          {typeSafeUserInfo && (
-            <div id="terminal-user-info-icons">
-              <Icon name={typeSafeUserInfo.platform} size="s" />
-              <Line vert height="32" marginX="4" />
-              <Icon
-                name={typeSafeUserInfo.bluetoothSupported ? "bluetooth" : "bluetoothDisabled"}
-                size="s"
-              />
-              <Line vert height="32" marginX="4" />
-              {typeSafeUserInfo.batteryIcon !== "batteryUnknown" &&
-                typeSafeUserInfo.batteryLevel && (
-                  <IconButton
-                    variant="secondary"
-                    style={{ pointerEvents: "none" }}
-                    tooltip={`${String(typeSafeUserInfo.batteryLevel)}%`}
-                    icon={typeSafeUserInfo.batteryIcon}
-                    size="s"
-                  />
-                )}
-              <Line vert height="32" marginX="4" />
-            </div>
-          )}
-          <pre className="terminal-input-display">
-            {terminalInput.slice(0, caretPos)}
-            <span className={`custom-caret${isFocused ? " blink" : ""}`} />
-            {terminalInput.slice(caretPos)}
-          </pre>
-          <IconButton
-            ref={terminalSendBtnRef}
-            id="terminal-send-btn"
-            tooltip="Send Command (Enter)"
-            icon="send"
-            size="m"
-            onPointerDown={handleSendTerminalCommand}
-          />
-        </div>
-      </span>
+      <span className="terminal-input-wrapper animated-span">{inputBar}</span>
     </Terminal>
   ) : (
     <Terminal ref={terminalContainerRef} enableDialog={enableDialog}>
@@ -250,116 +251,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
 
       <AnimatedSpan className="text-muted">exit code: 0</AnimatedSpan>
       <AnimatedSpan id="terminal-input-display-area">{""}</AnimatedSpan>
-      <AnimatedSpan className="terminal-input-wrapper">
-        <div
-          onPointerDown={() => {
-            terminalInputRef.current?.focus();
-          }}
-          onFocus={() => terminalInputRef.current?.focus()}
-          className="terminal-input-container"
-        >
-          <input
-            ref={terminalInputRef}
-            id="terminal-input"
-            value={terminalInput}
-            onChange={(e) => {
-              // terminalInputRef?.current?.scrollIntoView();
-              setTerminalInput(e.target.value);
-              setCaretPos(e.target.selectionStart ?? e.target.value.length);
-            }}
-            onPointerDown={(e) => {
-              const target = e.target as HTMLInputElement;
-              setCaretPos(target.selectionStart ?? terminalInput.length);
-            }}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            autoComplete="off"
-            spellCheck={false}
-            className="terminal-input-native"
-            style={{
-              position: "absolute",
-              opacity: 0,
-              pointerEvents: "none",
-              width: "100%",
-              left: 0,
-              top: 0,
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                setCaretPos(terminalInputRef.current?.selectionStart ?? terminalInput.length);
-              }
-              if (e.key === "ArrowRight" && e.ctrlKey) {
-                e.preventDefault();
-                const words = terminalInput
-                  .slice(caretPos)
-                  .split(/(\s+)/)
-                  .filter((word) => word.length > 0);
-                if (words.length === 0) return;
-                const firstWord = words[0];
-                const newCaretPos = caretPos + firstWord.length;
-                setCaretPos(newCaretPos);
-                setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
-                }, 0);
-              }
-              if (e.key === "ArrowLeft" && e.ctrlKey) {
-                e.preventDefault();
-                const words = terminalInput
-                  .slice(0, caretPos)
-                  .split(/(\s+)/)
-                  .filter((word) => word.length > 0);
-                if (words.length === 0) return;
-                const lastWord = words[words.length - 1];
-                const newCaretPos = caretPos - lastWord.length;
-                setCaretPos(newCaretPos);
-                setTimeout(() => {
-                  terminalInputRef.current?.setSelectionRange(newCaretPos, newCaretPos);
-                }, 0);
-              }
-
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSendTerminalCommand();
-              }
-            }}
-          />
-          {typeSafeUserInfo && (
-            <div id="terminal-user-info-icons">
-              <Icon name={typeSafeUserInfo.platform} size="s" />
-              <Line vert height="32" marginX="4" />
-              <Icon
-                name={typeSafeUserInfo.bluetoothSupported ? "bluetooth" : "bluetoothDisabled"}
-                size="s"
-              />
-              <Line vert height="32" marginX="4" />
-              {typeSafeUserInfo.batteryIcon !== "batteryUnknown" &&
-                typeSafeUserInfo.batteryLevel && (
-                  <IconButton
-                    variant="secondary"
-                    style={{ pointerEvents: "none" }}
-                    tooltip={`${String(typeSafeUserInfo.batteryLevel)}%`}
-                    icon={typeSafeUserInfo.batteryIcon}
-                    size="s"
-                  />
-                )}
-              <Line vert height="32" marginX="4" />
-            </div>
-          )}
-          <pre className="terminal-input-display">
-            {terminalInput.slice(0, caretPos)}
-            <span className={`custom-caret${isFocused ? " blink" : ""}`} />
-            {terminalInput.slice(caretPos)}
-          </pre>
-          <IconButton
-            ref={terminalSendBtnRef}
-            id="terminal-send-btn"
-            tooltip="Send Command (Enter)"
-            icon="send"
-            size="m"
-            onPointerDown={handleSendTerminalCommand}
-          />
-        </div>
-      </AnimatedSpan>
+      <AnimatedSpan className="terminal-input-wrapper">{inputBar}</AnimatedSpan>
     </Terminal>
   );
   return terminalToShow;
