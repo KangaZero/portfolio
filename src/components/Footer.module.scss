@@ -10,7 +10,7 @@
   display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: breakpoints.$s) {
   .logoMobile {
     display: block;
     width: 100%;
