@@ -35,8 +35,13 @@ format:
 typecheck:
     pnpm typecheck
 
-# Full local CI gate: lint, type-check, build
-check: lint typecheck build
+# Enforce @/* path alias — disallow ../ relative parent imports in src/
+check-imports:
+    @! grep -rn 'from "\.\.' src --include="*.ts" --include="*.tsx" | grep -v '//' \
+        || (echo "ERROR: use @/* alias instead of ../ relative imports" && exit 1)
+
+# Full local CI gate: lint, import check, type-check, build
+check: lint check-imports typecheck build
 
 # Update every dependency to the latest version allowed by the
 # 7-day minimumReleaseAge policy, then refresh the lockfile
@@ -47,10 +52,11 @@ upgrade:
 outdated:
     pnpm outdated
 
-# What the git pre-commit hook runs (auto-format, lint, type-check, build)
+# What the git pre-commit hook runs (auto-format, lint, import check, type-check, build)
 pre-commit:
     pnpm format
     pnpm lint
+    just check-imports
     pnpm typecheck
     pnpm build
 
