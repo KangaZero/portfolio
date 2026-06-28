@@ -1,5 +1,6 @@
 import type { IconType } from "react-icons";
 import {
+  FaAndroid,
   FaApple,
   FaBatteryEmpty,
   FaBatteryFull,
@@ -41,6 +42,7 @@ import {
   HiArrowUpRight,
   HiCalendarDays,
   HiEnvelope,
+  HiOutlineComputerDesktop,
   HiOutlineDocument,
   HiOutlineEye,
   HiOutlineEyeSlash,
@@ -78,6 +80,7 @@ import {
   SiDrizzle,
   SiFigma,
   SiGnubash,
+  SiIos,
   SiJavascript,
   SiNextdotjs,
   SiNixos,
@@ -89,6 +92,10 @@ import { TbLanguageHiragana } from "react-icons/tb";
 
 export const iconLibrary = {
   apple: FaApple,
+  macos: FaApple,
+  android: FaAndroid,
+  ios: SiIos,
+  other: HiOutlineComputerDesktop,
   bluetooth: FaBluetooth,
   batteryFull: FaBatteryFull,
   batteryEmpty: FaBatteryEmpty,
