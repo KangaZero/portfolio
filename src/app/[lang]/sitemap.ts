@@ -1,5 +1,5 @@
 import { baseURL, routes as routesConfig } from "@/resources";
-import { getPosts } from "@/utils/utils";
+import { getPosts } from "@/utils/mdx";
 
 export default async function sitemap() {
   const blogs = getPosts(["src", "app", "[lang]", "blog", "posts"]).map((post) => ({

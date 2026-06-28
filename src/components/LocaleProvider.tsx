@@ -4,8 +4,7 @@ import { usePathname } from "next/navigation";
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import { type TranslationKey, t } from "@/lib/i18n";
 import { useI18nIndicator } from "@/resources";
-import { getLocaleCookieFromClient } from "@/utils/getLocaleCookie";
-import { setLocaleCookie } from "@/utils/setLocaleCookie";
+import { getLocaleCookieFromClient, setLocaleCookie } from "@/utils/cookies";
 
 type OmitSecondParamFromFunction<F> = F extends (arg1: infer A, arg2: infer B) => infer R
   ? (arg1: A) => R

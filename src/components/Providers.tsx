@@ -9,8 +9,8 @@ import {
 } from "@once-ui-system/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
-import { dataStyle, style } from "../resources";
-import { iconLibrary } from "../resources/icons";
+import { dataStyle, style } from "@/resources";
+import { iconLibrary } from "@/resources/icons";
 import { AchievementsProvider } from "./AchievementsProvider";
 import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";

@@ -4,6 +4,7 @@
  */
 
 import type { ClientInfo } from "@/types";
+import { getVisitCountCookieFromClient } from "@/utils/cookies";
 import {
   detectCryptoWallets,
   detectSocialLogins,
@@ -14,7 +15,6 @@ import {
   getInitialAdvancedBehavior,
 } from "./getUserAdvancedDetails";
 import { detectInstalledApps, getInitialBehaviorData } from "./getUserBehavior";
-import { getVisitCountCookieFromClient } from "./getVisitCountCookieFromClient";
 // import { getWasmFingerprint } from "./wasmFingerprint";
 // import { getWebGPUFingerprint } from "./webgpuFingerprint";
 // import { isChromeAIAvailable } from "./chromeAI";
