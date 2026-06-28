@@ -93,7 +93,7 @@ export default async function RootLayout({ params, children }: LayoutProps<"/[la
             `,
         }}
       />
-      <Providers lang={(await params).lang}>
+      <Providers lang={lang}>
         <Column
           as="body"
           background="page"
