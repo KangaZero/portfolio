@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <These components never reorder, there order is fixed so no need to worry> */
+/** Using the array index as a key is flagged because the key is supposed to be a stable identity for an item, but the index is tied to position, not identity. When the list reorders, filters, or has items inserted/removed in the middle, the index-to-item mapping shifts — React then reuses the wrong component instances and DOM nodes, which causes bugs with state, focus, inputs, and animations, plus unnecessary re-renders. **/
 import { Column, Heading, Media, Meta, Row, Schema, Tag, Text } from "@once-ui-system/core";
 import type React from "react";
 import { AvatarContainer } from "@/components/about/AvatarContainer";

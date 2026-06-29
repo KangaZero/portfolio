@@ -32,6 +32,7 @@ const TrophiesDisplay = ({
       {summarize ? (
         <Link href={`/${locale}/achievements`}>
           <div
+            role="alert"
             className="link-wrapper"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

@@ -2,7 +2,7 @@
 import "./header-date.css";
 import "@/utils/animations/bounceIn.css";
 import { Icon, Skeleton } from "@once-ui-system/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getDailyWeatherForecast } from "@/api/queries/getDailyWeatherForecast";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { useLocale } from "@/components/LocaleProvider";
@@ -19,14 +19,20 @@ const HeaderDate = () => {
     forecastDays: 1,
   });
   const [isHovered, setIsHovered] = useState(false);
-  const now = new Date();
-  const day = translate(`headerDate.days.${now.getDay()}` as "headerDate.days.0");
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+  }, []);
+
+  const day = now ? translate(`headerDate.days.${now.getDay()}` as "headerDate.days.0") : "";
   const allButLastCharDay = day.slice(0, -1);
   const lastDayChar = day.slice(-1);
-  const date = now.getDate();
-  const hour = now.getHours();
-  const isDay = data ? Boolean(data.current.is_day) : hour >= 6 && hour < 18;
-  const month = translate(`headerDate.months.${now.getMonth()}` as "headerDate.months.0");
+  const date = now?.getDate() ?? null;
+  const hour = now?.getHours() ?? null;
+  const isDay = data ? Boolean(data.current.is_day) : hour !== null ? hour >= 6 && hour < 18 : true;
+  const month = now
+    ? translate(`headerDate.months.${now.getMonth()}` as "headerDate.months.0")
+    : "";
   const temperature = data ? Math.round(data.current.temperature_2m) : 0;
 
   const weatherDescription =

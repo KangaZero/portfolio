@@ -99,7 +99,7 @@ export default function Home() {
         <RevealFx fillWidth horizontal="center">
           <HomeProjectsTitle />
         </RevealFx>
-        <MagicBento textAutoHide={true} disableAnimations={!userSettings.isEffectsEnabled} />
+        {/* <MagicBento textAutoHide={true} disableAnimations={!userSettings.isEffectsEnabled} /> /*}
         {/*<ExpandableProjectCardGrid />*/}
         {/*<Projects range={[2]} />*/}
         {/*<Column fillWidth gap="xl">

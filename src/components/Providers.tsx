@@ -15,7 +15,15 @@ import { AchievementsProvider } from "./AchievementsProvider";
 import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";
 import { UserInfoProvider } from "./UserInfoProvider";
-export function Providers({ children, lang }: { children: React.ReactNode; lang: string }) {
+export function Providers({
+  children,
+  lang,
+  isStartInitialized,
+}: {
+  children: React.ReactNode;
+  lang: string;
+  isStartInitialized: boolean;
+}) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -45,7 +53,7 @@ export function Providers({ children, lang }: { children: React.ReactNode; lang:
               line: dataStyle.tick.line,
             }}
           >
-            <UserInfoProvider>
+            <UserInfoProvider initialIsStartInitialized={isStartInitialized}>
               <ToastProvider>
                 <LocaleProvider lang={lang}>
                   <AchievementsProvider>

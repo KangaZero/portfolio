@@ -2,7 +2,6 @@
 
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import type { ClientInfo, TypeSafeClientInfo } from "@/types";
-import { getStartInitializedCookie } from "@/utils/cookies";
 import { whoAmI } from "@/utils/getUserFingerprint";
 
 type UserInfoContextType = {
@@ -15,11 +14,15 @@ type UserInfoContextType = {
 };
 const UserInfoContext = createContext<UserInfoContextType | undefined>(undefined);
 
-export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
+export const UserInfoProvider = ({
+  children,
+  initialIsStartInitialized,
+}: {
+  children: ReactNode;
+  initialIsStartInitialized: boolean;
+}) => {
   const [userInfo, setUserInfo] = useState<null | ClientInfo>(null);
-  const [isStartInitialized, setIsStartInitialized] = useState(
-    getStartInitializedCookie() || false,
-  );
+  const [isStartInitialized, setIsStartInitialized] = useState(initialIsStartInitialized);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [typeSafeUserInfo, setTypeSafeUserInfo] = useState<null | TypeSafeClientInfo>(null);
 

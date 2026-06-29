@@ -1,7 +1,7 @@
 "use client";
 import "./TrueFocus.css";
 import { motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { useLocale } from "@/components/LocaleProvider";
 
 interface TrueFocusProps {
@@ -41,7 +41,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const wordRefs: React.MutableRefObject<(HTMLSpanElement | null)[]> = useRef([]);
+  const wordRefs: RefObject<(HTMLSpanElement | null)[]> = useRef([]);
   const [focusRect, setFocusRect] = useState<FocusRect>({
     x: 0,
     y: 0,
@@ -63,7 +63,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
 
   useEffect(() => {
-    if (currentIndex === null || currentIndex === -1) return;
+    if (currentIndex === null || currentIndex === -1 || !words.length) return;
 
     if (!wordRefs.current[currentIndex] || !containerRef.current) return;
 
@@ -96,8 +96,10 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       {words.map((word, index) => {
         const isActive = index === currentIndex;
         return (
-          <span
-            key={index}
+          <div
+            role="button"
+            tabIndex={0}
+            key={word}
             ref={(el) => {
               if (el) {
                 wordRefs.current[index] = el;
@@ -123,7 +125,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             onMouseLeave={handleMouseLeave}
           >
             {index === 0 && !isActive ? translate("about.work.subtitleBlur") : word}
-          </span>
+          </div>
         );
       })}
 

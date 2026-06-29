@@ -35,6 +35,9 @@ export const Header = () => {
   } = useAchievements();
   const hoverCardDescriptionRef = useRef<HTMLSpanElement>(null);
   const { theme } = useTheme();
+
+  // TODO might not be needed if system theme settings component is removed
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
     const lightThemeBtnElement = document.querySelector('[aria-label="Light theme"]');
     const darkThemeBtnElement = document.querySelector('[aria-label="Dark theme"]');
@@ -67,8 +70,9 @@ export const Header = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <>
   useEffect(() => {
-    if (!hoverCardDescriptionRef.current) return;
+    if (!hoverCardDescriptionRef.current || !locale) return;
     gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
     let killed = false;
     function cycleText(
@@ -102,7 +106,6 @@ export const Header = () => {
     return () => {
       killed = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
 
   return (
@@ -233,18 +236,3 @@ export const Header = () => {
     </>
   );
 };
-
-// <Flex
-//   s={{ hide: true }}
-//   position="sticky"
-//   paddingRight="32"
-//   paddingLeft="24"
-//   horizontal="end"
-//   vertical="end"
-//   textVariant="body-default-s"
-//   gap="20"
-// >
-//   <span ref={hoverCardDescriptionRef}>
-//     {translate("headerHoverCardDetails.0")}
-//   </span>
-// </Flex>

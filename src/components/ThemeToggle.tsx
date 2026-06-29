@@ -4,7 +4,6 @@ import { Icon, ToggleButton, useTheme } from "@once-ui-system/core";
 import React, { useEffect, useState } from "react";
 import { useAchievements } from "./AchievementsProvider";
 import styles from "./ThemeToggle.module.scss";
-import { AnimatedTooltip } from "./ui/AnimatedTooltip";
 
 export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
   const toggleThemeButtonRef = React.useRef<HTMLButtonElement>(null);
@@ -33,6 +32,7 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
   }, []);
 
   useEffect(() => {
+    if (!theme) return;
     setCurrentTheme(
       (document.documentElement.getAttribute("data-theme") as "light" | "dark") || "light",
     );
@@ -79,15 +79,13 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
       }}
       aria-label={`Switch to ${nextTheme} mode`}
     >
-      <AnimatedTooltip title="Theme" description={`Switch to ${nextTheme} mode`} direction="bottom">
-        <Icon
-          ref={toggleIconRef}
-          name={icon}
-          size="s"
-          // tooltip={`Switch to ${nextTheme} mode`}
-          // tooltipPosition="top"
-        />
-      </AnimatedTooltip>
+      <Icon
+        ref={toggleIconRef}
+        name={icon}
+        size="s"
+        tooltip={`Switch to ${nextTheme} mode`}
+        tooltipPosition="top"
+      />
     </ToggleButton>
   );
 };
